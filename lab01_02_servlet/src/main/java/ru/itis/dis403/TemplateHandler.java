@@ -1,27 +1,29 @@
 package ru.itis.dis403;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
 public class TemplateHandler {
     public void handle(String templateName, Map<String, String> map, Writer writer) {
-        try {
-            //1. Найти файл по имени templateName
-            String path = "templates/" + templateName;
-            //2. Прочитать файл в строку
-            String content = Files.readString(Path.of(path));
+        try (InputStream is = getClass().getResourceAsStream("/templates/" + templateName)) {
+            if (is == null) {
+                throw new RuntimeException("Шаблон не найден: " + templateName);
+            }
+
+            String content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
             for (Map.Entry<String, String> entry : map.entrySet()) {
-                //3. Найти в файле ${param_name} и заменить на значения параметра
                 String placeholder = "${" + entry.getKey() + "}";
-                content = content.replace(placeholder, entry.getKey());
+                content = content.replace(placeholder, entry.getValue());
             }
-            //4. Передать строку во writer
+
             writer.write(content);
         } catch (IOException e) {
-            throw new RuntimeException("ошибка при обработке шаблона " + templateName, e);
+            throw new RuntimeException("Ошибка при обработке шаблона " + templateName, e);
         }
 
     }
