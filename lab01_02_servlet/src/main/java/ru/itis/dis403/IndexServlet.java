@@ -29,7 +29,7 @@ public class IndexServlet extends HttpServlet {
                 </html>
                 """;
         servletResponse.getWriter().write(form);
-        new TemplateHandler().handle("index.html", servletResponse.getWriter());
+        new TemplateHandler().handle("index.html", Map.of(), servletResponse.getWriter());
     }
 
     public void doPost(HttpServletRequest servletRequest,
