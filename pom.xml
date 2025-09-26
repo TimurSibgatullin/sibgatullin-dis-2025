@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>lab01_httpserver</module>
+        <module>lab01_01_httpserver</module>
         <module>lab01_02_servlet</module>
     </modules>
 
