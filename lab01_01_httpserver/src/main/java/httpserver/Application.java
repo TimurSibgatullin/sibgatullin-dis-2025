@@ -8,5 +8,6 @@ public class Application {
 
     public void init() {
         resourceMap.put("/home", new HomeService());
+        resourceMap.put("/resource/part", new RequestService());
     }
 }

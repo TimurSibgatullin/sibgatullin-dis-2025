@@ -16,17 +16,20 @@ public class RequestHandler {
     final static Logger logger = LogManager.getLogger(RequestHandler.class);
 
     public void handle(Socket clientSocket) {
-        try {
-            // Поток для чтения данных от клиента
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()));
-            // Читаем пакет от клиента
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+             OutputStream os = clientSocket.getOutputStream()) {
+
             String lineOne = reader.readLine();
-            System.out.println(lineOne);
             logger.debug(lineOne);
+
+            if (lineOne == null || lineOne.isEmpty()) {
+                return;
+            }
+
             String[] components = lineOne.split(" ");
             String method = components[0];
             String uri = components[1];
+
             //TODO реализовать определение метода (GET, POST,...) для передачи как параметра в сервис
             // http://localhost:8080/resource/part?name=tat&region=16
             // URI /resource/part
@@ -48,31 +51,20 @@ public class RequestHandler {
                 }
             }
 
-            if (resource.equals("/shutdown")) {
-                logger.info("server stopped by client");
-                //break;
-            }
-            while (true) {
-                // Читаем пакет от клиента
-                String message = reader.readLine();
-                System.out.println(message);
+            String message;
+            while ((message = reader.readLine()) != null && !message.isEmpty()) {
                 logger.debug(message);
-
-                if (message.isEmpty()) {
-                    logger.debug("end of request header");
-                    OutputStream os = clientSocket.getOutputStream();
-                    logger.debug("outputStream" + os);
-                    IResourceService resourceService = Application.resourceMap.get(resource);
-                    if (resourceService != null) {
-                        resourceService.service(method, params, os);
-                    } else {
-                        new NotFoundService().service(method, params, os);
-                    }
-                    os.flush();
-                    logger.debug("outputStream" + os);
-                    break;
-                }
             }
+
+            IResourceService resourceService = Application.resourceMap.get(resource);
+            if (resourceService != null) {
+                resourceService.service(method, params, os);
+            } else {
+                new NotFoundService().service(method, params, os);
+            }
+
+            os.flush();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

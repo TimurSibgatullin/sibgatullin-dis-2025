@@ -1,12 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
 
     <Properties>
         <Property name="logdir">logs</Property>
-        <Property name="layout">%d [%t] %-5p %c- %m%n</Property>
+        <Property name="layout">%d [%t] %-5p %c - %m%n</Property>
     </Properties>
 
     <Appenders>
+        <!-- Консоль -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${layout}"/>
+        </Console>
+
+        <!-- Файл -->
         <RollingFile name="LOCALHOST"
                      fileName="${logdir}/localhost.log"
                      filePattern="${logdir}/localhost.%d{yyyy-MM-dd}-%i.log">
@@ -20,13 +26,10 @@
     </Appenders>
 
     <Loggers>
-        <Root level="debug"> <!-- error info debug -->
-            <AppenderRef ref="LOCALHOST" />
+        <!-- Логируем всё -->
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="LOCALHOST"/>
         </Root>
-
-        <Logger name="ru.itis.dis403.lab1_01.httpserver"
-                level="debug" additivity="false">
-            <AppenderRef ref="LOCALHOST" />
-        </Logger>
     </Loggers>
 </Configuration>
