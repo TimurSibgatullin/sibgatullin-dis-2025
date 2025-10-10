@@ -11,6 +11,7 @@
     <modules>
         <module>lab01_01_httpserver</module>
         <module>lab01_02_servlet</module>
+        <module>lab01_03</module>
     </modules>
 
     <properties>
