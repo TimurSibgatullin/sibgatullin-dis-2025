@@ -1,12 +1,32 @@
 package ru.itis.dis403.lab03;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class Row {
-    Integer f = 2;
-    Integer s = 2;
-    Integer t = 2;
+    private String f = "p.jpg";
+    private String s = "p.jpg";
+    private String t = "p.jpg";
+
+    public String getF() {
+        return f;
+    }
+
+    public void setF(String f) {
+        this.f = f;
+    }
+
+    public String getS() {
+        return s;
+    }
+
+    public void setS(String s) {
+        this.s = s;
+    }
+
+    public String getT() {
+        return t;
+    }
+
+    public void setT(String t) {
+        this.t = t;
+    }
 }
