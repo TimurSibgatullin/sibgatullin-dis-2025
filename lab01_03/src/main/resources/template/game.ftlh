@@ -32,35 +32,34 @@
 </head>
 <body>
 <h1>Крестики-нолики</h1>
+<table>
+    <#list table as r>
+        <tr>
+            <#assign i = r?index>
+            <#list ["f","s","t"] as c>
+                <#assign j = c?index>
+                <td>
+                    <#if r[c] == "пусто.png">
+                        <form method="post" action="/lab03/game">
+                            <input type="hidden" name="uid" value="${uid}">
+                            <input type="hidden" name="row" value="${i}">
+                            <input type="hidden" name="column" value="${j}">
+                            <input type="image" src="/lab03/static/img/пусто.png" alt="."/>
+                        </form>
+                    <#else>
+                        <img src="/lab03/static/img/${r[c]}" width="64" height="64">
+                    </#if>
+                </td>
+            </#list>
+        </tr>
+    </#list>
+</table>
 
 <#if gameOver?? && gameOver>
     <h2>${message}</h2>
     <form method="get" action="/lab03/game">
         <button type="submit">Сыграть снова</button>
     </form>
-<#else>
-    <table>
-        <#list table as r>
-            <tr>
-                <#assign i = r?index>
-                <#list ["f","s","t"] as c>
-                    <#assign j = c?index>
-                    <td>
-                        <#if r[c] == "пусто.png">
-                            <form method="post" action="/lab03/game">
-                                <input type="hidden" name="uid" value="${uid}">
-                                <input type="hidden" name="row" value="${i}">
-                                <input type="hidden" name="column" value="${j}">
-                                <input type="image" src="/lab03/static/img/пусто.png" alt="."/>
-                            </form>
-                        <#else>
-                            <img src="/lab03/static/img/${r[c]}" width="64" height="64">
-                        </#if>
-                    </td>
-                </#list>
-            </tr>
-        </#list>
-    </table>
 </#if>
 
 </body>
