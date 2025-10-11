@@ -14,6 +14,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.*;
+
 @WebServlet("/game")
 public class GamePage extends HttpServlet {
 
@@ -32,28 +43,46 @@ public class GamePage extends HttpServlet {
         request.setAttribute("table", gameState.getTable());
         request.setAttribute("uid", uid);
 
-        request.getRequestDispatcher("/game.ftlh")
-                .forward(request, response);
+        request.getRequestDispatcher("/game.ftlh").forward(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String row = request.getParameter("row");
-        String column = request.getParameter("column");
         String uid = request.getParameter("uid");
+        int row = Integer.parseInt(request.getParameter("row"));
+        int col = Integer.parseInt(request.getParameter("column"));
 
-        logger.debug("uid " + uid + ", row " + row + ", column " + column);
+        GameState game = gamers.get(uid);
+        if (game == null) {
+            response.sendRedirect("/lab03/game");
+            return;
+        }
 
-        GameState gameState = gamers.get(uid);
+        if (!game.isGameOver() && game.isEmpty(row, col)) {
+            game.setCell(row, col, "крестик.png");
+            if (game.checkWin("крестик.png")) {
+                game.setGameOver(true);
+                game.setMessage("Вы выиграли!");
+            } else if (!game.hasEmpty()) {
+                game.setGameOver(true);
+                game.setMessage("Ничья!");
+            } else {
+                game.aiMove();
+                if (game.checkWin("нолик.png")) {
+                    game.setGameOver(true);
+                    game.setMessage("Вы проиграли!");
+                } else if (!game.hasEmpty()) {
+                    game.setGameOver(true);
+                    game.setMessage("Ничья!");
+                }
+            }
+        }
 
-        List<Row> table = gameState.getTable();
-        Row trow = table.get(Integer.parseInt(row) - 1);
-        trow.setT("k.jpg");
-
-        request.setAttribute("table", table);
+        request.setAttribute("table", game.getTable());
         request.setAttribute("uid", uid);
+        request.setAttribute("message", game.getMessage());
+        request.setAttribute("gameOver", game.isGameOver());
 
-        request.getRequestDispatcher("/game.ftlh")
-                .forward(request, response);
+        request.getRequestDispatcher("/game.ftlh").forward(request, response);
     }
 }

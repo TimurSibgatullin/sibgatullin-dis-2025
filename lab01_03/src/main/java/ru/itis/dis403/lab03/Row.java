@@ -2,9 +2,9 @@ package ru.itis.dis403.lab03;
 
 
 public class Row {
-    private String f = "p.jpg";
-    private String s = "p.jpg";
-    private String t = "p.jpg";
+    private String f = "пусто.png";
+    private String s = "пусто.png";
+    private String t = "пусто.png";
 
     public String getF() {
         return f;
