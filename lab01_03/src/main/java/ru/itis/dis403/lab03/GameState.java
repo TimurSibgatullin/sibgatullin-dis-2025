@@ -76,14 +76,12 @@ public class GameState {
     }
 
     public boolean checkWin(String symbol) {
-        // строки и столбцы
         for (int i = 0; i < 3; i++) {
             if (getCell(i, 0).equals(symbol) && getCell(i, 1).equals(symbol) && getCell(i, 2).equals(symbol))
                 return true;
             if (getCell(0, i).equals(symbol) && getCell(1, i).equals(symbol) && getCell(2, i).equals(symbol))
                 return true;
         }
-        // диагонали
         return (getCell(0, 0).equals(symbol) && getCell(1, 1).equals(symbol) && getCell(2, 2).equals(symbol))
                 || (getCell(0, 2).equals(symbol) && getCell(1, 1).equals(symbol) && getCell(2, 0).equals(symbol));
     }
