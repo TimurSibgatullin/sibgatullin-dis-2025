@@ -15,7 +15,7 @@ public class DBConnection {
                 connection =
                         DriverManager.getConnection(
                                 // адрес БД , имя пользователя, пароль
-                                "jdbc:postgresql://localhost:5432/demo","postgres","passwd");
+                                "jdbc:postgresql://localhost:5432/demo","postgres","00000000");
                 return connection;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
