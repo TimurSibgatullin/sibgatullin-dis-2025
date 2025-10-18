@@ -13,6 +13,7 @@
         <module>lab01_02_servlet</module>
         <module>lab01_03</module>
         <module>lab01_04_db</module>
+        <module>lab01_05_authentication</module>
     </modules>
 
     <properties>
