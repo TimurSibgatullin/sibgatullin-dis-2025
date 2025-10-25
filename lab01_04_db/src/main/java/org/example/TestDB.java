@@ -15,7 +15,7 @@ public class TestDB {
                             "jdbc:postgresql://localhost:5432/demo","postgres","00000000");
 
             Statement statement = connection.createStatement();
-            //Boolean result = statement.execute("create table users(id bigint primary key, name varchar(50))");
+            //Boolean result = statement.execute("create table.ftlh users(id bigint primary key, name varchar(50))");
             String sql = "select * from airplanes_data where airplane_code = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, "35X");

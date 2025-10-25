@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.model.Airplane;
-import org.example.repository.AirplaneRepository;
 import org.example.service.AirplaneService;
 
 import java.io.IOException;

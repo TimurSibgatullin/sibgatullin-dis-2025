@@ -17,7 +17,6 @@ public class DBConnection {
         }
     }
 
-    // каждый вызов возвращает новое соединение
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
