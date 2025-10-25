@@ -1,7 +1,6 @@
 package org.example.repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.controller.LogoutServlet;
 import org.example.model.User;
 import org.example.service.DBConnection;
 
