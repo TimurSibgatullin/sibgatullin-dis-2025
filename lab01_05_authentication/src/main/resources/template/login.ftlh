@@ -19,5 +19,11 @@
     </div>
     <input type="submit" value="Вход">
 </form>
+<form action="/auth/register" method="get">
+    <div>
+        <label>Ещё не зарегистрированы?</label>
+        <input type="submit" value="Зарегистрироваться">
+    </div>
+</form>
 </body>
 </html>

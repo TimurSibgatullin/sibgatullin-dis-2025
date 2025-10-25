@@ -10,14 +10,15 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/register")
+public class RegistrationServlet extends HttpServlet {
 
-    final static Logger logger = LogManager.getLogger(LoginServlet.class);
+    final static Logger logger = LogManager.getLogger(RegistrationServlet.class);
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/login.ftlh")
+        request.getRequestDispatcher("/registration.ftlh")
                 .forward(request, response);
     }
+
 }

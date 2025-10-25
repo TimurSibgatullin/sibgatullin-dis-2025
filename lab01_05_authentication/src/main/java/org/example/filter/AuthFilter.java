@@ -11,20 +11,19 @@ import java.io.IOException;
 @WebFilter("/*")
 public class AuthFilter implements Filter {
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpSession session = ((HttpServletRequest) servletRequest).getSession(false);
+        HttpSession session = ((HttpServletRequest) request).getSession(false);
 
-
-        if (((HttpServletRequest) servletRequest).getServletPath().contains("/login")
-                && (session == null || session.getAttribute("user") == null)) {
-//            servletRequest.getRequestDispatcher("/login").forward(servletRequest, servletResponse);
-            ((HttpServletResponse) servletResponse).sendRedirect("/login");
+        if (!checkExcluded(((HttpServletRequest)request).getServletPath()) &&
+                (session == null || session.getAttribute("user") == null)) {
+            ((HttpServletResponse) response).sendRedirect("/auth/login");
         } else {
-            filterChain.doFilter(servletRequest, servletResponse);
+            filterChain.doFilter(request, response);
         }
     }
     private boolean checkExcluded(String resource) {
-        return resource.contains("/login") || resource.contains("/usercheck");
+        return resource.contains("/login") || resource.contains("/usercheck") ||
+                resource.contains("/register") || resource.contains("/userregister");
     }
 }

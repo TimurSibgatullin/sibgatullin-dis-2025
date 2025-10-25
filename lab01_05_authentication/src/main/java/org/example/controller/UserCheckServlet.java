@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.repository.UserRepository;
 
 
 import java.io.IOException;
@@ -15,17 +16,18 @@ public class UserCheckServlet extends HttpServlet {
     final static Logger logger = LogManager.getLogger(UserCheckServlet.class);
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserRepository repository = new UserRepository();
         HttpSession session = request.getSession(false);
         String resourse = "/index.ftlh";
         if (session == null || session.getAttribute("user") == null) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            if (username.equals("admin") && password.equals("admin")) {
+            if (repository.checkPassword(username, password)) {
                 session = request.getSession(true);
                 session.setAttribute("user", username);
                 resourse = "/index.ftlh";
             } else {
-                request.setAttribute("errormessage", "Карамба");
+                request.setAttribute("errormessage", "Карамба - неверный логин или пароль");
                 resourse = "/login.ftlh";
             }
         }

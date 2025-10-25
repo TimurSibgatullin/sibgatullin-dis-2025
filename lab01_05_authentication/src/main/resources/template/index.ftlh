@@ -16,5 +16,9 @@
 </head>
 <body>
 <h1>Поздравляю ${user!}, вы свой!</h1>
+
+<form action="/auth/logout" method="get">
+    <input type="submit" value="Выйти из учётки">
+</form>
 </body>
 </html>

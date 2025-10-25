@@ -12,12 +12,15 @@ public class DBConnection {
             return connection;
         } else {
             try {
+                Class.forName("org.postgresql.Driver");
                 connection =
                         DriverManager.getConnection(
                                 // адрес БД , имя пользователя, пароль
                                 "jdbc:postgresql://localhost:5432/demo","postgres","00000000");
                 return connection;
             } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
