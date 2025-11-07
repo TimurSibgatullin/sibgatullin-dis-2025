@@ -37,7 +37,7 @@ public class UserRepository {
         return users;
     }
 
-    public User findById(String id) {
+    public User findById(String id) throws SQLException {
         String sql = "SELECT id, login, role, firstname, lastname, phone FROM public.registred_users WHERE id = ?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -53,10 +53,9 @@ public class UserRepository {
                 user.setPhone(resultSet.getString("phone"));
                 return user;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new SQLException();
         }
-        return null;
     }
 
     public boolean save(User user) {

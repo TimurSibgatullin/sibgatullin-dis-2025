@@ -15,6 +15,7 @@
 </style>
 </head>
 <body>
+<div style="color:red">${errormessage!}</div>
 <a href="${current_context}/show">Показать все</a>
 <a href="${current_context}/add">Добавить пользователя</a>
 

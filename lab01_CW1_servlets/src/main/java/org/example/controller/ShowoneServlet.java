@@ -11,6 +11,7 @@ import org.example.model.User;
 import org.example.repository.UserRepository;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/showone")
 public class ShowoneServlet extends HttpServlet {
@@ -20,7 +21,15 @@ public class ShowoneServlet extends HttpServlet {
         String id = request.getParameter("id");
         request.setAttribute("current_context", request.getContextPath());
         UserRepository repository = new UserRepository();
-        User user = repository.findById(id);
+        User user = new User();
+        try {
+            user = repository.findById(id);
+        } catch (SQLException e) {
+            request.setAttribute("errormessage", "Пользователь с этим id несуществует");
+            request.getRequestDispatcher("/index.ftlh")
+                    .forward(request, response);
+            return;
+        }
         request.setAttribute("id", id);
         request.setAttribute("login", user.getLogin());
         request.setAttribute("role", user.getLogin());
