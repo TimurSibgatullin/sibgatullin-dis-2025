@@ -15,6 +15,9 @@ public class FlightRepository {
 
     public static List<FlightInfo> findFlights(String airportCode, String date, String type) {
         List<FlightInfo> result = new ArrayList<>();
+        if (type == null) {
+            type = "arrival";
+        }
         String sql = type.equals("arrival") ?
                 """
                 SELECT f.flight_id, f.scheduled_departure, f.scheduled_arrival, f.status,

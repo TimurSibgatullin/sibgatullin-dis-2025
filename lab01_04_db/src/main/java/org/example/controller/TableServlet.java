@@ -31,6 +31,7 @@ public class TableServlet extends HttpServlet {
         List<FlightInfo> flights = FlightRepository.findFlights(airport, date, type);
 
         req.setAttribute("flights", flights);
+        req.setAttribute("type", type);
         req.getRequestDispatcher("/table.ftlh").forward(req, resp);
     }
 }

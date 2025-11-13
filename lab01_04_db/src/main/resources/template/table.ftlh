@@ -13,17 +13,18 @@
     </style>
 </head>
 <body>
-<h1>Онлайн-табло (${type!"departure"? "Прилёт" : "Вылет"})</h1>
 
-<!-- Форма выбора -->
-<form method="get" action="/tablo">
+<h1>Онлайн-табло
+    <#if type?? && type == "arrival"> Прилёт
+    <#else>Вылет</#if>
+</h1>
+
+<form method="get" action="/lab04/table">
     <label>Аэропорт:
         <select name="airport">
-            <#if airport == "SVO">значение1<#else>значение2</#if>
-            <option value="SVO" ${airport == "SVO" ? "selected"}>Шереметьево</option>
-            <option value="LED" ${airport == "LED" ? "selected"}>Пулково</option>
-            <option value="DME" ${airport == "DME" ? "selected"}>Домодедово</option>
-            <!-- Добавь свои аэропорты -->
+            <option value="SVO">Шереметьево</option>
+            <option value="LED">Пулково</option>
+            <option value="DME">Домодедово</option>
         </select>
     </label>
 
@@ -33,15 +34,14 @@
 
     <label>Тип:
         <select name="type">
-            <option value="departure" ${type == "departure" ? "selected"}>Вылет</option>
-            <option value="arrival" ${type == "arrival" ? "selected"}>Прилет</option>
+            <option value="departure">Вылет</option>
+            <option value="arrival">Прилёт</option>
         </select>
     </label>
 
     <button type="submit">Показать</button>
 </form>
 
-<!-- Таблица рейсов -->
 <div class="tablo">
     <div class="tablo-row tablo-head">
         <div>Рейс</div>
@@ -51,17 +51,21 @@
         <div>Город</div>
         <div>Аэропорт</div>
     </div>
-
-    <#list flights as f>
-        <div class="tablo-row">
-            <div>${f.flightId}</div>
-            <div>${f.departure?string("HH:mm")}</div>
-            <div>${f.arrival?string("HH:mm")}</div>
-            <div>${f.status}</div>
-            <div>${f.city}</div>
-            <div>${f.airport}</div>
-        </div>
-    </#list>
+    <#if flights?has_content>
+        <#list flights as f>
+            <div class="tablo-row">
+                <div>${f.flightId}</div>
+                <div>${f.departure}</div>
+                <div>${f.arrival}</div>
+                <div>${f.status}</div>
+                <div>${f.city}</div>
+                <div>${f.airport}</div>
+            </div>
+        </#list>
+    <#else>
+        <div>Рейсов нет</div>
+    </#if>
 </div>
+
 </body>
 </html>
