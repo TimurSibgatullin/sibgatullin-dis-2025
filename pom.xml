@@ -16,6 +16,7 @@
         <module>lab01_05_authentication</module>
         <module>lab01_06_bcrypt</module>
         <module>lab01_CW1_servlets</module>
+        <module>lab01_pr1_servlets</module>
         <module>lab01_07_ajax</module>
     </modules>
 

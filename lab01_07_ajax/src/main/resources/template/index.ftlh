@@ -40,9 +40,7 @@
 <script>
     function change_city() {
         let city = document.getElementById("city");
-        console.log(city);
         selectedOption = city.options[city.selectedIndex];
-        console.log(selectedOption.text + ', ' + selectedOption.value);
 
         fetch('/ajax/comment?city=' + selectedOption.value)
             .then(response => response.text())
@@ -54,7 +52,6 @@
         fetch('/ajax/streets?city=' + selectedOption.value)
             .then(response => response.json())
             .then(json => {
-                console.log(json);
                 // чистим select
                 const streets = document.getElementById("street"    );
                 for(let i = streets.options.length-1; i >= 0; i--)
