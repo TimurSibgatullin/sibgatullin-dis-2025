@@ -5,7 +5,7 @@
 <body>
 <h2>Внесите данные в поля</h2>
 <div style="color:red">${errormessage!}</div>
-<form action="/admin/create-genre" method="post">
+<form action="${currentContext}/admin/create-genre" method="post">
     <p>
         <label>Название</label>
         <input type="text" name="name" value="" required>

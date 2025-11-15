@@ -28,7 +28,7 @@ public class User {
         this.description = description;
     }
 
-    public User(Long id, String description, String nickname) {
+    public User(Long id, String nickname, String description) {
         this.description = description;
         this.nickname = nickname;
         this.id = id;

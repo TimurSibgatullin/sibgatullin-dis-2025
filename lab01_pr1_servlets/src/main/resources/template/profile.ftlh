@@ -1,6 +1,7 @@
 <#ftl encoding="UTF-8">
 <#import "layout/base.ftlh" as base>
 <@base.layout title="Профиль">
+
     <h2>Здравствуйте, ${user.nickname}!</h2>
     <h3>Книги в избранном:</h3>
     <#if myFavoriteBooks?size == 0>
@@ -8,7 +9,7 @@
     <#else>
         <ul>
             <#list myFavoriteBooks as book>
-                <li><a href="/book?id=${book.id}">${book.title}</a></li>
+                <li><a href="${currentContext}/book?id=${book.id}">${book.title}</a></li>
             </#list>
         </ul>
     </#if>
@@ -19,26 +20,28 @@
         <#else>
             <ul>
                 <#list myBooks as book>
-                    <li><a href="/book?id=${book.id}">${book.title}</a></li>
+                    <li><a href="${currentContext}/book?id=${book.id}">${book.title}</a></li>
                 </#list>
             </ul>
         </#if>
-        <a href="/upload">Добавить новую книгу</a>
+        <a href="${currentContext}/upload">Добавить новую книгу</a>
     </#if>
-    <h3>Ваши комментарии:</h3>
-    <#if myComments?size == 0>
-        <p>Вы пока не оставляли комментариев.</p>
-    <#else>
-        <ul>
-            <#list myComments as comment>
-                <li>Комментарий к: <a href="/book?id=${comment.book.id}">${comment.book.title}</a> от ${comment.created_at} — ${comment.text}</li>
-            </#list>
-        </ul>
-    </#if>
-    <form action="/profile-edit" method="get">
-        <p>
-            <input type="submit" value="Редактировать профиль">
-        </p>
-    </form>
+    <p>
+        <h3>Ваши комментарии:</h3>
+        <#if myComments?size == 0>
+            <p>Вы пока не оставляли комментариев.</p>
+        <#else>
+            <ul>
+                <#list myComments as comment>
+                    <li>Комментарий к: <a href="${currentContext}/book?id=${comment.book.id}">${comment.book.title}</a> от ${comment.created_at} — ${comment.text}</li>
+                </#list>
+            </ul>
+        </#if>
+        <form action="${currentContext}/profile-edit" method="get">
+            <p>
+                <input type="submit" value="Редактировать профиль">
+            </p>
+        </form>
+    </p>
 
 </@base.layout>

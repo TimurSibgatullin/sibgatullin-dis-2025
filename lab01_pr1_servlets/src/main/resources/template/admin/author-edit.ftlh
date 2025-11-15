@@ -6,7 +6,7 @@
     <h2>Вы зашли в профиль автора: ${author.nickname}</h2>
     <h3>Вы можете изменить данные в полях:</h3>
     <div style="color:red">${errormessage!}</div>
-    <form action="/admin/edit-author" method="post">
+    <form action="${currentContext}/admin/edit-author" method="post">
         <p>
             <label>Имя</label>
             <input type="text" name="nickname" value="${author.nickname}" required>
@@ -38,7 +38,7 @@
             </p>
         </#list>
     </#if>
-    <a href="/admin/upload?id=${author.id}">Добавить новую книгу</a>
+    <a href="${currentContext}/admin/upload?id=${author.id}">Добавить новую книгу</a>
 
     </body>
     </html>

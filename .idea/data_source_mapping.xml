@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/f3906a3f-6284-4d83-86f2-ff2809d0fe90/console.sql" value="f3906a3f-6284-4d83-86f2-ff2809d0fe90" />
     <file url="file://$PROJECT_DIR$/lab01_07_ajax/src/main/java/org/example/repository/CityRepository.java" value="bae67176-74ed-4e0c-913f-8936c753bbf2" />
+    <file url="file://$PROJECT_DIR$/lab01_pr1_servlets/src/main/java/ru/freelib/repository/UserDao.java" value="f3906a3f-6284-4d83-86f2-ff2809d0fe90" />
   </component>
 </project>

@@ -37,7 +37,7 @@
         </div>
         <p>
     </form>
-    <form action="/admin/edit-book" method="post">
+    <form action="${currentContext}/admin/edit-book" method="post">
         <p>
             <input type="hidden" name="id" value="${book.id}">
             <input type="hidden" name="delete" value="true">

@@ -1,17 +1,12 @@
 <#ftl encoding="UTF-8">
 <#import "../layout/base.ftlh" as base>
-<@base.layout title="Профиль">
+<@base.layout title="Регистрация">
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Freelib регистрация</title>
-    <meta name="description" content="Freelib регистрация">
-</head>
 <body>
 <h2>Регистрация</h2>
 <div style="color:red">${errormessage!}</div>
-<form action="/auth/userregister" method="post">
+<form action="${currentContext}/auth/userregister" method="post">
     <div>
         <label>Введите логин</label>
         <input type="text" name="username" required>

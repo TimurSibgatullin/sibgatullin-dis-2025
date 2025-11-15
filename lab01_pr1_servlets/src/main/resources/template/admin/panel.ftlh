@@ -9,7 +9,7 @@
         </form>
     </p>
     <p>
-    <form method="get" action="${currentContext}admin/all-genres">
+    <form method="get" action="${currentContext}/admin/all-genres">
         <button type="submit">Показать все жанры</button>
     </form>
     </p>

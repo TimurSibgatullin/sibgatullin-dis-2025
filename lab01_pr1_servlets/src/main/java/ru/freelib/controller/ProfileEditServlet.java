@@ -45,6 +45,6 @@ public class ProfileEditServlet extends HttpServlet {
             return;
         }
         userService.update(new User(id, nickname, description));
-        response.sendRedirect(request.getContextPath() + "/logout");
+        response.sendRedirect(request.getContextPath() + "/auth/logout");
     }
 }

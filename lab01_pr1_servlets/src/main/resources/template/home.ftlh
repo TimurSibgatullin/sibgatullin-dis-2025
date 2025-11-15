@@ -12,7 +12,7 @@
         <ul>
             <#list genres as genre>
                 <li>
-                    <a href="/books?genreId=${genre.id}">${genre.name}</a><br>
+                    <a href="${currentContext}/books?genreId=${genre.id}">${genre.name}</a><br>
                     <label>Описание: ${genre.description}</label>
                 </li>
             </#list>
@@ -25,8 +25,8 @@
             <#else>
                 <#list books as book>
                     <li>
-                        <a href="/book?id=${book.id}">${book.title}</a> —
-                        <a href="/user?id=${book.author.id}">${book.author.nickname}</a>
+                        <a href="${currentContext}/book?id=${book.id}">${book.title}</a> —
+                        <a href="${currentContext}/user?id=${book.author.id}">${book.author.nickname}</a>
                     </li>
                 </#list>
             </#if>

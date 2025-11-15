@@ -5,7 +5,7 @@
     <body>
     <h2>Измените данные в полях</h2>
     <div style="color:red">${errormessage!}</div>
-    <form action="/admin/edit-genre" method="post">
+    <form action="${currentContext}/admin/edit-genre" method="post">
         <p>
             <label>Название</label>
             <input type="text" name="name" value="${genre.name}" required>
@@ -17,7 +17,7 @@
         <input type="submit" value="Изменить">
         <input type="hidden" name="id" value="${genre.id}">
     </form>
-    <form action="/admin/edit-genre" method="post">
+    <form action="${currentContext}/admin/edit-genre" method="post">
         <p>
             <input type="hidden" name="id" value="${genre.id}">
             <input type="hidden" name="delete" value="true">

@@ -1,4 +1,4 @@
-package ru.freelib.controller.Config;
+package ru.freelib.Config;
 
 import ru.freelib.repository.ConnectionManager;
 import ru.freelib.repository.UserDao;

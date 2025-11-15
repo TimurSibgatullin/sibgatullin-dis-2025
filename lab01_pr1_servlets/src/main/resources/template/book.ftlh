@@ -1,7 +1,7 @@
 <#import "layout/base.ftlh" as base>
 <@base.layout title="${book.title}">
     <h2>${book.title}</h2>
-    <p><b>Автор:</b> <a href="/user?id=${book.author.id}">${book.author.nickname}</a></p>
+    <p><b>Автор:</b> <a href="${currentContext}/user?id=${book.author.id}">${book.author.nickname}</a></p>
     <p><b>Жанр:</b> ${book.genre.name}</p>
     <p><b>Описание:</b> ${book.description}</p>
     <#if user??>
@@ -16,7 +16,7 @@
                 const bookId = btn.dataset.id;
                 const isFav = btn.dataset.fav === "true";
 
-                const url = isFav ? "/favorite/delete" : "/favorite/add";
+                const url = isFav ? "${currentContext}/favorite/delete" : "${currentContext}/favorite/add";
 
                 fetch(url, {
                     method: "POST",
@@ -44,15 +44,15 @@
         </script>
     </#if>
 
-    <a href="/download?id=${book.id}">Скачать книгу</a>
+    <a href="${currentContext}/download?id=${book.id}">Скачать книгу</a>
 
     <h3>Комментарии</h3>
     <ul>
         <#list comments as c>
-            <li><b>${c.created_at} — <a href="/user?id=${c.user.id}">${c.user.nickname}</a>:</b> ${c.text}</li>
+            <li><b>${c.created_at} — <a href="${currentContext}/user?id=${c.user.id}">${c.user.nickname}</a>:</b> ${c.text}</li>
         </#list>
     </ul>
-    <form method="post" action="/book">
+    <form method="post" action="${currentContext}/book">
         <input type="hidden" name="bookId" value="${book.id}">
         <textarea name="comment" rows="3" cols="40" required></textarea><br>
         <button type="submit">Оставить комментарий</button>

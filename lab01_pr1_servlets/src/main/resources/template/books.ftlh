@@ -7,7 +7,7 @@
         <#else>
             <#list books as book>
                 <div class="book-card">
-                    <li><a href="/book?id=${book.id}">${book.title}</a> — <a href="/author?id=${book.author.id}">${book.author.nickname}</a></li>
+                    <li><a href="${currentContext}/book?id=${book.id}">${book.title}</a> — <a href="/author?id=${book.author.id}">${book.author.nickname}</a></li>
                 </div>
             </#list>
         </#if>

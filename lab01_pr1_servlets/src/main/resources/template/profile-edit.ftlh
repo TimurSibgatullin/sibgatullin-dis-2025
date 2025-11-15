@@ -5,7 +5,7 @@
 <body>
 <h3>Вы можете изменить данные в полях:</h3>
 <div style="color:red">${errormessage!}</div>
-<form action="/profile-edit" method="post">
+<form action="${currentContext}/profile-edit" method="post">
     <p>
         <label>Имя</label>
         <input type="text" name="nickname" value="${author.nickname}" required>
@@ -16,7 +16,7 @@
     </p>
     <input type="submit" value="Изменить">
 </form>
-<form action="/profile-edit" method="post">
+<form action="${currentContext}/profile-edit" method="post">
     <p>
         <input type="hidden" name="delete" value="true">
         <input type="submit" value="Удалить">
