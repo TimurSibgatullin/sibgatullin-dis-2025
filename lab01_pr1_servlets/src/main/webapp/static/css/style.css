@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #ffffff;
+    color: #111;
+}
+
+/* Отлепляем текст от левого края */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding-left: 10px; /* 🔹 Добавлен небольшой отступ */
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+    font-weight: 600;
+}
+
+/* Кнопки — минималистичные, синие */
+button {
+    padding: 6px 10px;
+    border: 1px solid #1a56db;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    color: #1a56db; /* 🔹 Спокойный синий */
+}
+
+button:hover {
+    background: #eef3ff; /* очень светлый синий */
+}
+
+/* Списки */
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+li {
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Ссылки — синие, без наворотов */
+a {
+    color: #1a56db; /* 🔹 Ссылка синяя */
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none; /* минималистичное поведение */
+    color: #174bb8; /* чуть темнее при наведении */
+}
+
+/* Между блоками — минимальный воздух */
+section {
+    margin-bottom: 20px;
+}
