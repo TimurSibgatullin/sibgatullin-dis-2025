@@ -27,7 +27,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("currentContext", request.getContextPath());
-        request.getRequestDispatcher("/registration.ftlh")
+        request.getRequestDispatcher("/auth/registration.ftlh")
                 .forward(request, response);
     }
 
@@ -67,7 +67,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("errormessage", "Логин занят");
             }
         }
-        request.getRequestDispatcher("/registration.ftlh")
+        request.getRequestDispatcher("/auth/registration.ftlh")
                 .forward(request, response);
     }
 }

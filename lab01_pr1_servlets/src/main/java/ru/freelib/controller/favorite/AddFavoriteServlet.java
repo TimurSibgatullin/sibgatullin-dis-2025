@@ -24,10 +24,11 @@ public class AddFavoriteServlet extends HttpServlet {
             throws IOException {
 
         Long userId = ((User) req.getSession().getAttribute("user")).getId();
-        Long bookId = Long.parseLong(req.getParameter("bookId"));
+        Long bookId = Long.parseLong(req.getParameter("id"));
 
         favorites.add(userId, bookId);
 
-        resp.sendRedirect(req.getContextPath() + "/book?id=" + bookId);
+        resp.setContentType("text/plain; charset=UTF-8");
+        resp.getWriter().write("OK");
     }
 }

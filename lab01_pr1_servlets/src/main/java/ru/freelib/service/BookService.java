@@ -12,6 +12,7 @@ import ru.freelib.repository.UserDao;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookService {
@@ -68,11 +69,13 @@ public class BookService {
         String original = Paths.get(filePart.getSubmittedFileName())
                 .getFileName()
                 .toString();
-        String fileName = String.join(List.of(original.split("\\.")).removeLast(), ".") + "_" + System.currentTimeMillis() +
-                List.of(original.split("\\.")).getLast();
-        File savedFile = new File(uploadDir, fileName);
+        int dotIndex = original.lastIndexOf('.');
+        String baseName = original.substring(0, dotIndex);
+        String extension = original.substring(dotIndex + 1);
+        String result = baseName + "_" + System.currentTimeMillis() + "." + extension;
+        File savedFile = new File(uploadDir, result);
         filePart.write(savedFile.getAbsolutePath());
-        Book book = new Book(title, description, fileName, user, genre);
+        Book book = new Book(title, description, result, user, genre);
 
         return bookDao.save(book);
     }
@@ -80,4 +83,9 @@ public class BookService {
     public List<Book> getByGenreId(Long genreId) {
         return bookDao.findByGenreId(genreId);
     }
+
+    public boolean isFavorite(Long userId, Long bookId) {
+        return bookDao.isFavorite(userId, bookId);
+    }
+
 }

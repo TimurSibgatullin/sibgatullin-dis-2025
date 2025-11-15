@@ -5,14 +5,43 @@
     <p><b>Жанр:</b> ${book.genre.name}</p>
     <p><b>Описание:</b> ${book.description}</p>
     <#if user??>
-        <p><form action="${currentContext}/favorite/add" method="post">
-            <input type="hidden" name="bookId" value="${book.id}">
-            <button type="submit">Добавить в избранное</button>
-        </form></p>
-        <p><form action="${currentContext}/favorite/delete" method="post">
-            <input type="hidden" name="bookId" value="${book.id}">
-            <button type="submit">Удалить из избранного</button>
-        </form></p>
+        <p><button id="favBtn"
+                data-id="${book.id}"
+                data-fav="${book.favorite?string("true", "false")}">
+            ${book.favorite?string("Удалить из избранного", "Добавить в избранное")}
+        </button></p>
+        <script>
+            document.getElementById("favBtn").addEventListener("click", function () {
+                const btn = this;
+                const bookId = btn.dataset.id;
+                const isFav = btn.dataset.fav === "true";
+
+                const url = isFav ? "/favorite/delete" : "/favorite/add";
+
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "id=" + encodeURIComponent(bookId)
+                })
+                    .then(r => r.text())
+                    .then(resp => {
+                        if (resp === "OK") {
+                            if (isFav) {
+                                btn.dataset.fav = "false";
+                                btn.innerText = "Добавить в избранное";
+                            } else {
+                                btn.dataset.fav = "true";
+                                btn.innerText = "Удалить из избранного";
+                            }
+                        } else {
+                            alert("Ошибка: " + resp);
+                        }
+                    })
+                    .catch(() => alert("Ошибка AJAX запроса"));
+            });
+        </script>
     </#if>
 
     <a href="/download?id=${book.id}">Скачать книгу</a>

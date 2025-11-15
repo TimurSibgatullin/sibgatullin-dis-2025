@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("currentContext", request.getContextPath());
-        request.getRequestDispatcher("/login.ftlh")
+        request.getRequestDispatcher("/auth/login.ftlh")
                 .forward(request, response);
     }
 
@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
             }
         } else {
             request.setAttribute("errormessage", "Неверный логин или пароль");
-            request.getRequestDispatcher("/login.ftlh")
+            request.getRequestDispatcher("/auth/login.ftlh")
                     .forward(request, response);
         }
     }

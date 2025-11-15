@@ -195,4 +195,22 @@ public class BookDao {
         }
         return books;
     }
+
+    public boolean isFavorite(long userId, long bookId) {
+        String sql = "SELECT 1 FROM user_book_favorites WHERE user_id = ? AND book_id = ?";
+
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, userId);
+            stmt.setLong(2, bookId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

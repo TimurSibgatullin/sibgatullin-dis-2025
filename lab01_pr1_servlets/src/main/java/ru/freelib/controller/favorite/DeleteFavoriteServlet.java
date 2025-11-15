@@ -11,6 +11,7 @@ import java.io.IOException;
 
 @WebServlet("/favorite/delete")
 public class DeleteFavoriteServlet extends HttpServlet {
+
     private FavoriteService favorites;
 
     @Override
@@ -23,10 +24,11 @@ public class DeleteFavoriteServlet extends HttpServlet {
             throws IOException {
 
         Long userId = ((User) req.getSession().getAttribute("user")).getId();
-        Long bookId = Long.parseLong(req.getParameter("bookId"));
+        Long bookId = Long.parseLong(req.getParameter("id"));
 
         favorites.remove(userId, bookId);
 
-        resp.sendRedirect(req.getContextPath() + "/book?id=" + bookId);
+        resp.setContentType("text/plain; charset=UTF-8");
+        resp.getWriter().write("OK");
     }
 }

@@ -8,6 +8,8 @@ public class Book {
     private Long views;
     private User author;
     private Genre genre;
+    private boolean favorite;
+
 
 
     public Book(Long id, String title, String description, String filePath, User author, Genre genre) {
@@ -21,12 +23,20 @@ public class Book {
 
     public Book() {}
 
-    public Book(String description, String title, String filePath, User author, Genre genre) {
+    public Book(String title, String description, String filePath, User author, Genre genre) {
         this.description = description;
         this.title = title;
         this.filePath = filePath;
         this.author = author;
         this.genre = genre;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     public Long getId() {

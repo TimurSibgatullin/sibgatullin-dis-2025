@@ -17,7 +17,7 @@ public class CommentService {
     }
 
 
-    public Comment getByUser(Long id) {
+    public List<Comment> getByUser(Long id) {
         return commentDao.findByUserId(id);
     }
 

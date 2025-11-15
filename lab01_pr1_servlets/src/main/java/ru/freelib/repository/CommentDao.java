@@ -61,8 +61,9 @@ public class CommentDao {
         return comments;
     }
 
-    public Comment findByUserId(Long userId) {
-        String sql = "SELECT * FROM comments WHERE user_id = ? ORDER BY created_at DESC";
+    public List<Comment> findByUserId(Long userId) {
+        List<Comment> comments = new ArrayList<>();
+        String sql = "SELECT id, book_id, user_id, text, created_at FROM comments WHERE user_id = ? ORDER BY created_at DESC";
         try (Connection con = connectionManager.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setLong(1, userId);
@@ -77,13 +78,13 @@ public class CommentDao {
                             rs.getString("text"),
                             localDateTime
                     );
-                    return c;
+                    comments.add(c);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return comments;
     }
 }
 

@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8">
-<#import "layout/base.ftlh" as base>
+<#import "../layout/base.ftlh" as base>
 <@base.layout title="Профиль">
 <!DOCTYPE html>
 <html lang="ru">

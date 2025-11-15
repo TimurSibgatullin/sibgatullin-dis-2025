@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<#import "layout/base.ftlh" as base>
+<#import "../layout/base.ftlh" as base>
 <@base.layout title="Вход">
 <html lang="ru">
 <head>

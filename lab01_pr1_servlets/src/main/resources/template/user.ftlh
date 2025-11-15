@@ -1,21 +1,11 @@
 <#ftl encoding="UTF-8">
 <#import "layout/base.ftlh" as base>
-<@base.layout title="Профиль">
-    <h2>Здравствуйте, ${user.nickname}!</h2>
-    <h3>Книги в избранном:</h3>
-    <#if myFavoriteBooks?size == 0>
-        <p>Вы пока не добавили ни одной книги в избранное.</p>
-    <#else>
-        <ul>
-            <#list myFavoriteBooks as book>
-                <li><a href="/book?id=${book.id}">${book.title}</a></li>
-            </#list>
-        </ul>
-    </#if>
+<@base.layout title="Пользователь ${user.nickname}">
+    <h2>Профиль пользователя ${user.nickname}</h2>
     <#if user.role == "author" || user.role == "admin">
-        <h3>Ваши книги:</h3>
+        <h3>Книги этого автора:</h3>
         <#if myBooks?size == 0>
-            <p>Вы пока не добавили ни одной книги.</p>
+            <p>Автор пока не добавил ни одной книги.</p>
         <#else>
             <ul>
                 <#list myBooks as book>
@@ -23,15 +13,13 @@
                 </#list>
             </ul>
         </#if>
-        <a href="/upload">Добавить новую книгу</a>
     </#if>
-    <h3>Ваши комментарии:</h3>
+    <h3>Комментарии пользователя: ${user.nickname}</h3>
     <#if myComments?size == 0>
         <p>Вы пока не оставляли комментариев.</p>
     <#else>
         <ul>
             <#list myComments as comment>
-
                 <li>Комментарий к: <a href="/book?id=${comment.book.id}">${comment.book.title}</a> от ${comment.created_at} — ${comment.text}</li>
             </#list>
         </ul>
