@@ -13,12 +13,12 @@
         </p>
         <p>
             <label>О авторе</label>
-            <input type="text" name="description" value="${author.description!}" required>
+            <textarea type="text" name="description" required>${author.description!}</textarea>
         </p>
         <input type="submit" value="Изменить">
         <input type="hidden" name="id" value="${author.id}">
     </form>
-    <form action="/admin/edit-author" method="post">
+    <form action="${currentContext}/admin/edit-author" method="post">
         <p>
             <input type="hidden" name="id" value="${author.id}">
             <input type="hidden" name="delete" value="true">

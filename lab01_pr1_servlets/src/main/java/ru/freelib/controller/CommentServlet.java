@@ -39,9 +39,4 @@ public class CommentServlet extends HttpServlet {
         commentService.addComment(new Comment(book, user, text));
         response.sendRedirect(request.getContextPath() + "/book?id=" + book.getId());
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    }
 }

@@ -215,7 +215,7 @@ public class UserDao {
             connection.setAutoCommit(false);
             try (PreparedStatement stUser = connection.prepareStatement(insertUser)) {
                 stUser.setLong(1, id);
-                stUser.executeQuery();
+                stUser.executeUpdate();
             }
             connection.commit();
             return true;

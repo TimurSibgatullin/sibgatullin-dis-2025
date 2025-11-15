@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.freelib.controller.auth.LoginServlet;
 import ru.freelib.model.User;
 import ru.freelib.service.BookService;
 import ru.freelib.service.UserService;
@@ -14,6 +17,7 @@ import java.util.Objects;
 
 @WebServlet("/profile-edit")
 public class ProfileEditServlet extends HttpServlet {
+
     private UserService userService;
     private BookService bookService;
 
@@ -41,7 +45,7 @@ public class ProfileEditServlet extends HttpServlet {
         Long id = ((User) request.getSession().getAttribute("user")).getId();
         if (Objects.equals(request.getParameter("delete"), "true")) {
             userService.delete(id);
-            response.sendRedirect(request.getContextPath() + "/profile");
+            response.sendRedirect(request.getContextPath() + "/auth/logout");
             return;
         }
         userService.update(new User(id, nickname, description));

@@ -17,10 +17,12 @@ import java.util.List;
 @WebServlet("/admin")
 public class AdminServlet extends HttpServlet {
     private UserService userService;
+    private BookService bookService;
 
     @Override
     public void init() {
         userService = (UserService) getServletContext().getAttribute("userService");
+        bookService = (BookService) getServletContext().getAttribute("bookService");
     }
 
     @Override
@@ -41,6 +43,7 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("errormessage", "Автор не найден!");
             request.getRequestDispatcher("/admin/panel.ftlh").forward(request, response);
         } else {
+            request.setAttribute("myBooks", bookService.findByAuthor(user.getId()));
             request.setAttribute("author", user);
             request.getRequestDispatcher("/admin/author-edit.ftlh").forward(request, response);
         }

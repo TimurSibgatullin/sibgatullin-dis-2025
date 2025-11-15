@@ -38,6 +38,7 @@ public class RegisterServlet extends HttpServlet {
         String password2 = request.getParameter("password2");
         String role = request.getParameter("role");
         String nickname = request.getParameter("nickname");
+        String description = request.getParameter("description");
         request.setAttribute("currentContext", request.getContextPath());
         if (Objects.equals(login, "") || Objects.equals(password1, "") || Objects.equals(password2, "") ||
                 Objects.equals(nickname, "")) {
@@ -47,13 +48,14 @@ public class RegisterServlet extends HttpServlet {
         } else if (!password1.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{9,}$")) {
             request.setAttribute("errormessage", "Пароль должен быть длиньше 8 символов, иметь одну строчную, одну прописную букву и одну цифру");
         } else {
-            boolean ok = userService.register(login, password1, password2, role, nickname);
+            boolean ok = userService.register(login, password1, password2, role, nickname, description);
             if (ok) {
                 User user = userService.authenticate(login, password1);
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
                 session.setAttribute("role", user.getRole());
                 session.setAttribute("nickname", user.getNickname());
+                session.setAttribute("description", user.getDescription());
                 String url = (String) request.getSession().getAttribute("redirectAfterLogin");
                 if (url != null) {
                     request.getSession().removeAttribute("redirectAfterLogin");

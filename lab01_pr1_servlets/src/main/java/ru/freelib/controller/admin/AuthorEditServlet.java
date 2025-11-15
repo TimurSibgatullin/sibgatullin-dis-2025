@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.freelib.controller.auth.LoginServlet;
 import ru.freelib.model.User;
 import ru.freelib.service.BookService;
 import ru.freelib.service.UserService;
@@ -15,6 +18,7 @@ import java.util.Objects;
 
 @WebServlet("/admin/edit-author")
 public class AuthorEditServlet extends HttpServlet {
+    final static Logger logger = LogManager.getLogger(LoginServlet.class);
     private UserService userService;
     private BookService bookService;
 

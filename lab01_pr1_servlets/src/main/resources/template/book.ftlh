@@ -45,16 +45,17 @@
     </#if>
 
     <a href="${currentContext}/download?id=${book.id}">Скачать книгу</a>
-
-    <h3>Комментарии</h3>
-    <ul>
-        <#list comments as c>
-            <li><b>${c.created_at} — <a href="${currentContext}/user?id=${c.user.id}">${c.user.nickname}</a>:</b> ${c.text}</li>
-        </#list>
-    </ul>
-    <form method="post" action="${currentContext}/book">
-        <input type="hidden" name="bookId" value="${book.id}">
-        <textarea name="comment" rows="3" cols="40" required></textarea><br>
-        <button type="submit">Оставить комментарий</button>
-    </form>
+    <p>
+        <h3>Комментарии</h3>
+        <ul>
+            <#list comments as c>
+                <li><b>${c.created_at} — <a href="${currentContext}/user?id=${c.user.id}">${c.user.nickname}</a>:</b> ${c.text}</li>
+            </#list>
+        </ul>
+        <form method="post" action="${currentContext}/book">
+            <input type="hidden" name="bookId" value="${book.id}">
+            <textarea name="comment" rows="3" cols="40" required></textarea><br>
+            <button type="submit">Оставить комментарий</button>
+        </form>
+    </p>
 </@base.layout>

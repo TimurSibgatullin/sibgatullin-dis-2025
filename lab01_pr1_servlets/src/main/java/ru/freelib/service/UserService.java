@@ -13,13 +13,13 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public boolean register(String login, String password1, String password2, String role, String nickname) {
+    public boolean register(String login, String password1, String password2, String role, String nickname, String description) {
         if (!userDao.isLoginFree(login)) {
             return false;
         }
 
         String hash = BCrypt.hashpw(password1, BCrypt.gensalt());
-        User user = new User(login, hash, role, nickname);
+        User user = new User(login, hash, role, nickname, description);
         return (userDao.save(user) > 0);
     }
 

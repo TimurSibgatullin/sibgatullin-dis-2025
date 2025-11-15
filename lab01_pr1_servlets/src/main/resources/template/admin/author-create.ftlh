@@ -12,7 +12,7 @@
     </p>
     <p>
         <label>Описание</label>
-        <input type="text" name="description" value="" required>
+        <textarea type="text" name="description" required></textarea>
     </p>
     <input type="submit" value="Cоздать">
 </form>

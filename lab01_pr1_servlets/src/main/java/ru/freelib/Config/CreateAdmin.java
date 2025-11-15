@@ -16,6 +16,6 @@ public class CreateAdmin {
         }
         UserDao userDao = new UserDao(connectionManager);
         userService = new UserService(userDao);
-        System.out.println(userService.register("admin", "HulTi55iYB}g+yXU", "HulTi55iYB}g+yXU", "admin", "admin"));
+        System.out.println(userService.register("admin", "HulTi55iYB}g+yXU", "HulTi55iYB}g+yXU", "admin", "admin", ""));
     }
 }
