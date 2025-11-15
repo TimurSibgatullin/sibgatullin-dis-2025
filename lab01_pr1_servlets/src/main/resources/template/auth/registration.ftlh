@@ -14,15 +14,15 @@
 <form action="/auth/userregister" method="post">
     <div>
         <label>Введите логин</label>
-        <input type="text" name="username">
+        <input type="text" name="username" required>
     </div>
     <div>
-        <label>Введите пароль</label>
-        <input type="password" name="password1">
+        <label>Введите пароль</label >
+        <input type="password" name="password1" required>
     </div>
     <div>
         <label>Повторите пароль</label>
-        <input type="password" name="password2">
+        <input type="password" name="password2" required>
     </div>
     <div>
         <label>Выберите роль</label>
@@ -33,7 +33,7 @@
     </div>
     <div>
         <label>Введите никнейм</label>
-        <input type="text" name="nickname">
+        <input type="text" name="nickname" required>
     </div>
     <input type="submit" value="Зарегистрироваться">
 </form>

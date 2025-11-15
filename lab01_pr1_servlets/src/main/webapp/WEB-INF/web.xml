@@ -14,36 +14,6 @@
         <listener-class>ru.freelib.listener.AppContextListener</listener-class>
     </listener>
 
-    <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>ru.freelib.filter.AuthFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <url-pattern>/profile/*</url-pattern>
-        <url-pattern>/upload/*</url-pattern>
-    </filter-mapping>
-
-<!--    <servlet>-->
-<!--        <servlet-name>HomeServlet</servlet-name>-->
-<!--        <servlet-class>ru.freelib.controller.HomeServlet</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>HomeServlet</servlet-name>-->
-<!--        <url-pattern>/home</url-pattern>-->
-<!--    </servlet-mapping>-->
-
-<!--    <servlet>-->
-<!--        <servlet-name>BookServlet</servlet-name>-->
-<!--        <servlet-class>ru.freelib.controller.BookServlet</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>BookServlet</servlet-name>-->
-<!--        <url-pattern>/books</url-pattern>-->
-<!--    </servlet-mapping>-->
-
-
-
     <servlet>
         <servlet-name>freemarker</servlet-name>
         <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>

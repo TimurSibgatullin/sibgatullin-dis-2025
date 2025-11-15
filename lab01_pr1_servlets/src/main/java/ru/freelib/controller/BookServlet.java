@@ -32,7 +32,7 @@ public class BookServlet extends HttpServlet {
         request.setAttribute("currentContext", request.getContextPath());
         long bookId = Long.parseLong(request.getParameter("id"));
         Book book = bookService.getById(bookId);
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (session != null) {
             User user = (User) request.getSession().getAttribute("user");
             if (user != null) {
@@ -52,7 +52,6 @@ public class BookServlet extends HttpServlet {
         request.setAttribute("currentContext", request.getContextPath());
         long bookId = Long.parseLong(request.getParameter("bookId"));
         String text = URLEncoder.encode(request.getParameter("comment"));
-
         response.sendRedirect(request.getContextPath() + "/comment/add?bookId=" + bookId +"&text=" + text);
     }
 }

@@ -2,6 +2,8 @@
 <#import "layout/base.ftlh" as base>
 <@base.layout title="Пользователь ${user.nickname}">
     <h2>Профиль пользователя ${user.nickname}</h2>
+    <p><h4>О пользователе:</h4>
+    <label>${user.description}</label></p>
     <#if user.role == "author" || user.role == "admin">
         <h3>Книги этого автора:</h3>
         <#if myBooks?size == 0>
@@ -16,7 +18,7 @@
     </#if>
     <h3>Комментарии пользователя: ${user.nickname}</h3>
     <#if myComments?size == 0>
-        <p>Вы пока не оставляли комментариев.</p>
+        <p>Пользователь пока не оставлял комментариев.</p>
     <#else>
         <ul>
             <#list myComments as comment>

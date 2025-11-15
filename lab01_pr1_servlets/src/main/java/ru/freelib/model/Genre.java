@@ -11,6 +11,11 @@ public class Genre {
         this.description = description;
     }
 
+    public Genre(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public Genre() {
     }
 

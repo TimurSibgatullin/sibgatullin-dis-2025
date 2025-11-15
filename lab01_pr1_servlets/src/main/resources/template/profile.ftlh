@@ -31,9 +31,14 @@
     <#else>
         <ul>
             <#list myComments as comment>
-
                 <li>Комментарий к: <a href="/book?id=${comment.book.id}">${comment.book.title}</a> от ${comment.created_at} — ${comment.text}</li>
             </#list>
         </ul>
     </#if>
+    <form action="/profile-edit" method="get">
+        <p>
+            <input type="submit" value="Редактировать профиль">
+        </p>
+    </form>
+
 </@base.layout>

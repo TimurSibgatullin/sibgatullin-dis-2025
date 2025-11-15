@@ -88,4 +88,66 @@ public class BookService {
         return bookDao.isFavorite(userId, bookId);
     }
 
+    public boolean delete(Long id) {
+        Book book = bookDao.findById(id);
+        if (book == null) return false;
+
+        String uploadPath = servletContext.getRealPath("/uploads");
+        File file = new File(uploadPath, book.getFilePath());
+
+        if (file.exists()) {
+            file.delete();
+        }
+
+        return bookDao.delete(id);
+    }
+
+    public boolean updateBook(Long id,
+                              String title,
+                              String description,
+                              Long genreId,
+                              Part filePart) throws IOException {
+
+        Book book = bookDao.findById(id);
+        Genre genre = genreDao.findById(genreId);
+
+        if (book == null || genre == null) {
+            throw new IllegalArgumentException("Книга или жанр не найдены");
+        }
+
+        String uploadPath = servletContext.getRealPath("/uploads");
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        String newFileName = book.getFilePath();
+
+        if (filePart != null && filePart.getSize() > 0) {
+
+            File oldFile = new File(uploadDir, book.getFilePath());
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+
+            String original = Paths.get(filePart.getSubmittedFileName())
+                    .getFileName().toString();
+
+            int dot = original.lastIndexOf('.');
+            String base = original.substring(0, dot);
+            String ext = original.substring(dot + 1);
+
+            newFileName = base + "_" + System.currentTimeMillis() + "." + ext;
+
+            File newFile = new File(uploadDir, newFileName);
+            filePart.write(newFile.getAbsolutePath());
+        }
+
+        book.setTitle(title);
+        book.setDescription(description);
+        book.setGenre(genre);
+        book.setFilePath(newFileName);
+
+        return bookDao.update(book);
+    }
 }

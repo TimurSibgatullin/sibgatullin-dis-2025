@@ -6,8 +6,32 @@ public class User {
     private String passwordHash;
     private String role;
     private String nickname;
+    private String description;
 
     public User() {
+    }
+
+    public User(Long id, String login, String passwordHash, String role, String nickname, String description) {
+        this.id = id;
+        this.login = login;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.nickname = nickname;
+        this.description = description;
+    }
+
+    public User(String login, String passwordHash, String role, String nickname, String description) {
+        this.login = login;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.nickname = nickname;
+        this.description = description;
+    }
+
+    public User(Long id, String description, String nickname) {
+        this.description = description;
+        this.nickname = nickname;
+        this.id = id;
     }
 
     public User(String login, String passwordHash, String role, String nickname) {
@@ -27,6 +51,14 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setId(Long id) {

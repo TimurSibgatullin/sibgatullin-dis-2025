@@ -3,10 +3,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <#if user??>
-<h2>Добро пожаловать, ${nickname!}</h2>
+<h2>Добро пожаловать, ${nickname!}.</h2>
 </#if>
-<p><h3>Выберите жанр, чтобы начать читать:</h3></p>
-<h2>Жанры</h2>
+<h2>Выберите жанр, чтобы начать читать:</h2>
 <ul>
     <#list genres as genre>
         <p>
@@ -18,9 +17,13 @@
 
 <h2>Последние книги</h2>
 <ul>
-    <#list books as book>
-        <li><a href="/book?id=${book.id}">${book.title}</a> — <a href="/user?id=${book.author.id}">${book.author.nickname}</a></li>
-    </#list>
+    <#if books?size == 0>
+        <p>Пока нет добавленных книг.</p>
+    <#else>
+        <#list books as book>
+            <li><a href="/book?id=${book.id}">${book.title}</a> — <a href="/user?id=${book.author.id}">${book.author.nickname}</a></li>
+        </#list>
+    </#if>
 </ul>
 </html>
 </@base.layout>

@@ -53,4 +53,52 @@ public class GenreDao {
         }
         return null;
     }
+
+    public boolean save(Genre genre) {
+        String sql = "INSERT INTO genres (name, description) VALUES (?, ?)";
+
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, genre.getName());
+            stmt.setString(2, genre.getDescription());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error saving genre", e);
+        }
+    }
+
+    public boolean update(Genre genre) {
+        String sql = "UPDATE genres SET name = ?, description = ? WHERE id = ?";
+
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, genre.getName());
+            stmt.setString(2, genre.getDescription());
+            stmt.setLong(3, genre.getId());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating genre", e);
+        }
+    }
+
+    public boolean delete(Long id) {
+        String sql = "DELETE FROM genres WHERE id = ?";
+
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, id);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting genre", e);
+        }
+    }
 }

@@ -12,15 +12,23 @@ public class GenreService {
         this.genreDao = dao;
     }
 
-    public List<Genre> getAllGenres() {
-        return genreDao.findAll();
-    }
-
     public Genre getById(Long id) {
         return genreDao.findById(id);
     }
 
     public List<Genre> findAll() {
         return genreDao.findAll();
+    }
+
+    public boolean save(Genre genre) {
+        return genreDao.save(genre);
+    }
+
+    public boolean update(Genre genre) {
+        return genreDao.update(genre);
+    }
+
+    public boolean delete(Long id) {
+        return genreDao.delete(id);
     }
 }

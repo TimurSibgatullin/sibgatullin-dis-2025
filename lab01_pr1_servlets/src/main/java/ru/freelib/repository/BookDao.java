@@ -107,15 +107,16 @@ public class BookDao {
         return true;
     }
 
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         String sql = "DELETE FROM books WHERE id = ?";
         try (Connection conn = connectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
-            ps.executeUpdate();
+            return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public List<Book> findByAuthorId(Long id) {
@@ -211,6 +212,25 @@ public class BookDao {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public boolean update(Book book) {
+        String sql = "UPDATE books SET title = ?, description = ?, file_path = ?, genre_id = ? WHERE id = ?";
+
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getDescription());
+            stmt.setString(3, book.getFilePath());
+            stmt.setLong(4, book.getGenre().getId());
+            stmt.setLong(5, book.getId());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating book", e);
         }
     }
 }
