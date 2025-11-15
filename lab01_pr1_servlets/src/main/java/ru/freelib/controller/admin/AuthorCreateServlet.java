@@ -32,7 +32,7 @@ public class AuthorCreateServlet extends HttpServlet {
             throws ServletException, IOException {
         String nickname = request.getParameter("nickname");
         String description = request.getParameter("description");
-        userService.adminRegister(new User("", "", "author", nickname, description));
+        userService.adminRegister(new User(String.valueOf(System.currentTimeMillis()), "", "author", nickname, description));
         response.sendRedirect(request.getContextPath() + "/admin");
     }
 }

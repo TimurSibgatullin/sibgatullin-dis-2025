@@ -12,7 +12,7 @@
     </p>
     <p>
         <label>Описание</label>
-        <textarea type="text" name="description" required></textarea>
+        <textarea type="text" name="description" required rows="5" cols="40"></textarea>
     </p>
     <input type="submit" value="Cоздать">
 </form>

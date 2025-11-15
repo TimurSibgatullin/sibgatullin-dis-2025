@@ -24,7 +24,7 @@
                 </#list>
             </ul>
         </#if>
-        <a href="${currentContext}/upload">Добавить новую книгу</a>
+        <p><a href="${currentContext}/upload">Добавить новую книгу</a></p>
     </#if>
     </p>
     <p>

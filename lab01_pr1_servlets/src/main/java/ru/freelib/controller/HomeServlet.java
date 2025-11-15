@@ -11,7 +11,9 @@ import ru.freelib.service.BookService;
 import ru.freelib.service.GenreService;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {

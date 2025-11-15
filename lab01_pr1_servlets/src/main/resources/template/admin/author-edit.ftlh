@@ -13,7 +13,7 @@
         </p>
         <p>
             <label>О авторе</label>
-            <textarea type="text" name="description" required>${author.description!}</textarea>
+            <textarea type="text" name="description" required rows="5" cols="40">${author.description!}</textarea>
         </p>
         <input type="submit" value="Изменить">
         <input type="hidden" name="id" value="${author.id}">

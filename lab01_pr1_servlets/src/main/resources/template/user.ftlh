@@ -16,7 +16,7 @@
             </ul>
         </#if>
     </#if>
-    <#if user.login != "">
+    <#if user.passwordHash != "">
         <h3>Комментарии пользователя: ${user.nickname}</h3>
         <#if myComments?size == 0>
             <p>Пользователь пока не оставлял комментариев.</p>

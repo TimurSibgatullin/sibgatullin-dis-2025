@@ -42,7 +42,7 @@
     </p>
     <p>
         <label>Расскажите о себе</label>
-        <textarea type="text" name="description"></textarea>
+        <textarea type="text" name="description" rows="5" cols="40"></textarea>
     </p>
     <input type="submit" value="Зарегистрироваться">
 </form>
