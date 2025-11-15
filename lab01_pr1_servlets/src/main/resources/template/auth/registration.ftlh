@@ -29,7 +29,6 @@
         <select id="role" name="role">
             <option value="reader" selected>Читатель</option>
             <option value="author">Автор</option>
-            <option value="admin">Администратор</option>
         </select>
     </div>
     <div>
