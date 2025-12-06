@@ -18,6 +18,7 @@
         <module>lab01_CW1_servlets</module>
         <module>lab01_pr1_servlets</module>
         <module>lab01_07_ajax</module>
+        <module>lab01_08_ui</module>
     </modules>
 
     <properties>
