@@ -48,8 +48,10 @@ public class GamePanel extends JPanel {
         drawOrbs(g);
         drawBullets(g);
         drawPlayers(g);
-        drawLevelBar(g, me);
-        drawUpgrades(g, state.statsLevels);
+        if (!state.isOverlayVisible) {
+            drawLevelBar(g, me);
+            drawUpgrades(g, state.statsLevels);
+        }
     }
 
 
@@ -125,7 +127,7 @@ public class GamePanel extends JPanel {
             g.setColor(new Color(40, 40, 40));
             g.fillRect(barX, barY, barWidth, barHeight);
 
-            float hpPercent = Math.max(0f, Math.min(1f, p.hp / (float) 100));
+            float hpPercent = Math.max(0f, Math.min(1f, p.hp / (float) p.maxHp));
             int hpFill = (int) (barWidth * hpPercent);
 
             g.setColor(new Color(120, 0, 0));
@@ -185,7 +187,7 @@ public class GamePanel extends JPanel {
             g.fillRect(barX, barY, barWidth, barHeight);
             float hpPercent = 0;
             if (o.radius == OrbType.SMALL.radius) {
-                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 10));
+                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 20));
             } else if (o.radius == OrbType.MEDIUM.radius) {
                 hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 50));
             } else if (o.radius == OrbType.BIG.radius) {

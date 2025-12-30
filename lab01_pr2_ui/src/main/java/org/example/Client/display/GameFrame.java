@@ -54,6 +54,7 @@ public class GameFrame extends JFrame {
     }
 
     public void showOverlay(Statistics ps) {
+        client.state.isOverlayVisible = true;
         layers.remove(overlay);
         overlay = new StartOverlay(client, ps);
         layers.add(overlay, JLayeredPane.MODAL_LAYER);
@@ -65,6 +66,7 @@ public class GameFrame extends JFrame {
     }
 
     public void hideOverlay() {
+        client.state.isOverlayVisible = false;
         overlay.setVisible(false);
         gamePanel.requestFocusInWindow();
     }

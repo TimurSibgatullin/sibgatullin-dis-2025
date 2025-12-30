@@ -146,7 +146,7 @@ public class GameServer {
                             }
                         }
                         if (p.hp < p.stats.maxHp) {
-                            if (now - p.lastHealTime >= 10000) {
+                            if (now - p.lastHealTime >= 1000) {
                                 p.lastHealTime = now;
                                 if (p.hp + p.stats.healing <= p.stats.maxHp) {
                                     p.hp += p.stats.healing;
@@ -181,7 +181,7 @@ public class GameServer {
                                 float dyo = ny - orb.y;
 
                                 if (dxo * dxo + dyo * dyo <= orb.radius * orb.radius) {
-                                    orb.hp -= 10;
+                                    orb.hp -= (int) players.get(b.ownerId).stats.damage;
                                     bulletsToRemove.add(b);
                                     removed = true;
 
@@ -208,10 +208,12 @@ public class GameServer {
                                 float dyp = ny - player.y;
 
                                 if (dxp * dxp + dyp * dyp <= 15 * 15) {
-                                    player.hp = (int) (player.hp - players.get(b.ownerId).stats.damage + player.stats.defense);
+                                    if (players.get(b.ownerId).stats.damage > player.stats.defense) {
+                                        player.hp = (int) (player.hp - players.get(b.ownerId).stats.damage + player.stats.defense);
+                                    }
                                     if (player.hp <= 0) {
                                         Player killer = players.get(b.ownerId);
-                                        killer.xp += (int)(player.xp * 0.5f);
+                                        killer.xp += (int)(player.xp * 0.9f);
                                         calculateLvl(killer);
                                         killer.kills++;
 
@@ -258,6 +260,7 @@ public class GameServer {
                         w.writeFloat(ps.x);
                         w.writeFloat(ps.y);
                         w.writeFloat(ps.angle);
+                        w.writeInt((int) ps.stats.maxHp);
                         w.writeInt(ps.hp);
                         w.writeInt(ps.xp);
                         w.writeInt(ps.lvl);

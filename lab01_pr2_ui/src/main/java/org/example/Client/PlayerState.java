@@ -5,6 +5,7 @@ public class PlayerState {
     public int id = -1;
     public float x, y;
     public float angle = 0f;
+    public int maxHp;
     public int hp;
     public int lvl;
     public int xp;

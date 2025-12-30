@@ -11,6 +11,7 @@ public class GameState {
     Map<Integer, OrbState> orbs = new HashMap<>();
     protected PlayerState me = new PlayerState();
     public PlayerStatsLevels statsLevels = new PlayerStatsLevels();
+    public boolean isOverlayVisible = true;
 
     public void setMyId(int id) {
         this.me.id = id;

@@ -3,10 +3,7 @@ package org.example.Client;
 
 import org.example.Client.display.GameFrame;
 import org.example.Client.display.GamePanel;
-import org.example.CommonFiles.MessageReader;
-import org.example.CommonFiles.MessageWriter;
-import org.example.CommonFiles.Statistics;
-import org.example.CommonFiles.Protocol;
+import org.example.CommonFiles.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +25,7 @@ public class GameClient {
 
 
     InputController input;
-    GameState state = new GameState();
+    public GameState state = new GameState();
     GamePanel panel;
     GameFrame frame;
 
@@ -176,6 +173,7 @@ public class GameClient {
                         ps.x = r.readFloat();
                         ps.y = r.readFloat();
                         ps.angle = r.readFloat();
+                        ps.maxHp = r.readInt();
                         ps.hp = r.readInt();
                         ps.xp = r.readInt();
                         ps.lvl = r.readInt();
@@ -301,6 +299,7 @@ public class GameClient {
             w.writeInt(state.getMyPlayer().id);
             w.writeString(text);
             commandQueue.add(w);
+            state.statsLevels = new PlayerStatsLevels();
             frame.hideOverlay();
         } catch (Exception e) {
             e.printStackTrace();

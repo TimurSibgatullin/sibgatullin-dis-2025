@@ -3,8 +3,8 @@ package org.example.CommonFiles;
 import java.awt.*;
 
 public enum OrbType {
-    SMALL(7, 20, 10, new Color(201, 132, 4)),
-    MEDIUM(10, 50, 30, new Color(125, 21, 163)),
+    SMALL(7, 20, 20, new Color(201, 132, 4)),
+    MEDIUM(10, 50, 50, new Color(125, 21, 163)),
     BIG(14, 100, 100, new Color(240, 217, 17)),
     MEGA_BIG(22, 1000, 1000, new Color(86, 181, 27));
 
