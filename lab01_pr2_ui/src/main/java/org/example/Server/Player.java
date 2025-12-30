@@ -10,10 +10,10 @@ public class Player {
         public static float healing = 1.36f;
         public static float damage = 10;
         public static float defense = 0;
-        public static float fireRate = 800;
-        public static float speed = 3;
+        public static float fireRate = 600;
+        public static float speed = 2;
         public static float ramDamage = 5;
-        public static float bulletSpeed = 6;
+        public static float bulletSpeed = 5;
     }
 
     public class PlayerStats {
@@ -32,9 +32,9 @@ public class Player {
             damage = DefaultPlayerStats.damage + statsLevels.damage * 5.66f;
             defense = DefaultPlayerStats.defense + statsLevels.defense * 3.33f;
             fireRate = DefaultPlayerStats.fireRate - statsLevels.fireRate * 40.00f;
-            speed = DefaultPlayerStats.speed + statsLevels.speed * 0.2f;
+            speed = DefaultPlayerStats.speed + statsLevels.speed * 0.1f;
             ramDamage = 5;
-            bulletSpeed = DefaultPlayerStats.bulletSpeed + statsLevels.bulletSpeed * 0.6f;
+            bulletSpeed = DefaultPlayerStats.bulletSpeed + statsLevels.bulletSpeed * 0.2f;
         }
 
         void resetStats() {

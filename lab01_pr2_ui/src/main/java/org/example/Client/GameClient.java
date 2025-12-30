@@ -137,7 +137,7 @@ public class GameClient {
                 w.writeFloat(dy);
                 w.writeFloat(state.getMyPlayer().angle);
                 commandQueue.add(w);
-                Thread.sleep(30);
+                Thread.sleep(20);
             } catch (Exception e) {}
         }
     }

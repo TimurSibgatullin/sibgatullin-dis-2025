@@ -293,7 +293,7 @@ public class GameServer {
 
                     send(w, player.address, player.port);
                 }
-                Thread.sleep(20);
+                Thread.sleep(15);
             } catch (Exception e) {
                 e.printStackTrace();
             }

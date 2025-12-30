@@ -6,6 +6,8 @@ import org.example.Client.OrbState;
 import org.example.Client.PlayerState;
 import org.example.CommonFiles.OrbType;
 import org.example.CommonFiles.PlayerStatsLevels;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ public class GamePanel extends JPanel {
     private static final Color GRID_COLOR = new Color(210, 210, 210);
     private static final Color BORDER_COLOR = Color.BLACK;
     private static final Color BULLET_COLOR = Color.YELLOW;
+    private static final Logger log = LoggerFactory.getLogger(GamePanel.class);
 
     private final GameState state;
     private final Camera camera;
@@ -26,6 +29,7 @@ public class GamePanel extends JPanel {
         this.state = state;
         this.camera = new Camera();
 
+        setDoubleBuffered(true);
         setFocusable(true);
         setBackground(Color.LIGHT_GRAY);
         setDoubleBuffered(true);
@@ -36,6 +40,7 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
 
         PlayerState me = state.getMyPlayer();
         if (me == null) return;
@@ -94,9 +99,15 @@ public class GamePanel extends JPanel {
 
         for (PlayerState p : state.getPlayers()) {
             if (!p.isActive) continue;
-
-            int sx = camera.worldToScreenX(p.x);
-            int sy = camera.worldToScreenY(p.y);
+            int sx;
+            int sy;
+            if (p.id == me.id) {
+                sx = getWidth() / 2;
+                sy = getHeight() / 2;
+            } else {
+                sx = camera.worldToScreenX(p.x);
+                sy = camera.worldToScreenY(p.y);
+            }
 
             if (p.id == me.id) {
                 g.setColor(new Color(7, 148, 54));
