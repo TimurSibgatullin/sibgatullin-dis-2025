@@ -1,6 +1,5 @@
 package org.example.Client;
 import org.example.CommonFiles.PlayerStatsLevels;
-import org.example.Server.Player;
 
 import java.util.*;
 
