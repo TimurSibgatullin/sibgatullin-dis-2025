@@ -3,12 +3,14 @@ import org.example.CommonFiles.PlayerStatsLevels;
 import org.example.Server.Player;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameState {
 
     private final Map<Integer, PlayerState> players = new HashMap<>();
     private final List<BulletState> bullets = new ArrayList<>();
-    Map<Integer, OrbState> orbs = new HashMap<>();
+    Map<Integer, OrbState> orbs = new ConcurrentHashMap<>();
+    private final Object orbsLock = new Object();
     protected PlayerState me = new PlayerState();
     public PlayerStatsLevels statsLevels = new PlayerStatsLevels();
     public boolean isOverlayVisible = true;
@@ -21,12 +23,10 @@ public class GameState {
         this.me = me;
     }
 
-    public synchronized void clearOrbs() {
-        orbs.clear();
-    }
-
-    public synchronized void addOrb(OrbState o) {
-        orbs.put(o.id, o);
+    public void updateOrbs(Map<Integer, OrbState> newOrbs) {
+        synchronized (orbsLock) {
+            this.orbs = new HashMap<>(newOrbs);
+        }
     }
 
     public synchronized Collection<OrbState> getOrbs() {

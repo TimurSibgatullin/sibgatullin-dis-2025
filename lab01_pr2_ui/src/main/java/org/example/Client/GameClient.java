@@ -6,15 +6,14 @@ import org.example.Client.display.GamePanel;
 import org.example.CommonFiles.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.net.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameClient {
@@ -200,7 +199,8 @@ public class GameClient {
                     }
 
                     int orbCount = r.readInt();
-                    state.clearOrbs();
+
+                    Map<Integer, OrbState> newOrbs = new HashMap<>();
                     for (int i = 0; i < orbCount; i++) {
                         OrbState o = new OrbState();
                         o.id = r.readInt();
@@ -209,8 +209,9 @@ public class GameClient {
                         o.radius = r.readInt();
                         o.hp = r.readInt();
                         o.color = new Color(r.readInt(), r.readInt(), r.readInt());
-                        state.addOrb(o);
+                        newOrbs.put(o.id, o);
                     }
+                    state.updateOrbs(newOrbs);
                 }
 
                 if (type == Protocol.CONNECT) {;

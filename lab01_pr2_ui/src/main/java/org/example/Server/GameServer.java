@@ -213,7 +213,11 @@ public class GameServer {
                                     }
                                     if (player.hp <= 0) {
                                         Player killer = players.get(b.ownerId);
-                                        killer.xp += (int)(player.xp * 0.9f);
+                                        if (player.xp < 1000) {
+                                            killer.xp += 1000;
+                                        } else {
+                                            killer.xp += (int)(player.xp * 0.9f);
+                                        }
                                         calculateLvl(killer);
                                         killer.kills++;
 

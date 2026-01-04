@@ -32,7 +32,6 @@ public class GamePanel extends JPanel {
         setDoubleBuffered(true);
         setFocusable(true);
         setBackground(Color.LIGHT_GRAY);
-        setDoubleBuffered(true);
 
         new Timer(16, e -> repaint()).start();
     }
@@ -40,7 +39,6 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
 
         PlayerState me = state.getMyPlayer();
         if (me == null) return;
@@ -112,7 +110,7 @@ public class GamePanel extends JPanel {
             if (p.id == me.id) {
                 g.setColor(new Color(7, 148, 54));
             } else {
-                g.setColor(new Color(161, 17, 11));
+                g.setColor(new Color(200, 10, 10));
             }
             g.fillOval(sx - 15, sy - 15, 30, 30);
 
@@ -141,7 +139,7 @@ public class GamePanel extends JPanel {
             float hpPercent = Math.max(0f, Math.min(1f, p.hp / (float) p.maxHp));
             int hpFill = (int) (barWidth * hpPercent);
 
-            g.setColor(new Color(120, 0, 0));
+            g.setColor(new Color(200, 10, 10));
             g.fillRect(barX, barY, hpFill, barHeight);
 
             g.setColor(Color.BLACK);
@@ -177,7 +175,36 @@ public class GamePanel extends JPanel {
     }
 
     private void drawOrbs(Graphics g) {
+        Rectangle viewBounds = new Rectangle(
+                (int) camera.worldLeft(),
+                (int) camera.worldTop(),
+                (int) (camera.worldRight() - camera.worldLeft()),
+                (int) (camera.worldBottom() - camera.worldTop())
+        );
+
         for (OrbState o : state.getOrbs()) {
+            Rectangle orbBounds = new Rectangle(
+                    (int) (o.x - o.radius),
+                    (int) (o.y - o.radius),
+                    o.radius * 2,
+                    o.radius * 2
+            );
+
+            if (!viewBounds.intersects(orbBounds)) {
+                continue;
+            }
+            float hpPercent = 0;
+
+            if (o.radius == OrbType.SMALL.radius) {
+                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 20));
+            } else if (o.radius == OrbType.MEDIUM.radius) {
+                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 50));
+            } else if (o.radius == OrbType.BIG.radius) {
+                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 100));
+            } else if (o.radius == OrbType.MEGA_BIG.radius) {
+                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 1000));
+            }
+
             g.setColor(o.color);
             int sx = camera.worldToScreenX(o.x);
             int sy = camera.worldToScreenY(o.y);
@@ -196,19 +223,10 @@ public class GamePanel extends JPanel {
 
             g.setColor(new Color(40, 40, 40));
             g.fillRect(barX, barY, barWidth, barHeight);
-            float hpPercent = 0;
-            if (o.radius == OrbType.SMALL.radius) {
-                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 20));
-            } else if (o.radius == OrbType.MEDIUM.radius) {
-                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 50));
-            } else if (o.radius == OrbType.BIG.radius) {
-                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 100));
-            } else if (o.radius == OrbType.MEGA_BIG.radius) {
-                hpPercent = Math.max(0f, Math.min(1f, o.hp / (float) 1000));
-            }
+
             int hpFill = (int) (barWidth * hpPercent);
 
-            g.setColor(new Color(120, 0, 0));
+            g.setColor(new Color(200, 10, 10));
             g.fillRect(barX, barY, hpFill, barHeight);
 
             g.setColor(Color.BLACK);

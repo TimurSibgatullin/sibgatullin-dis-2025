@@ -65,7 +65,7 @@ public class Player {
     public int ya;
     public float angle;
     public int hp = 100;
-    public int lvl = 100;
+    public int lvl = 0;
     public int xp = 0;
     public boolean shooting = false;
     public long lastShotTime = 0;
