@@ -161,9 +161,7 @@ public class GameClient {
                 Protocol type = Protocol.fromByte(r.readByte());
 
                 if (type == Protocol.WORLD_SNAPSHOT) {
-                    state.clearPlayers();
-                    state.clearBullets();
-
+                    Map<Integer, PlayerState> newPlayers = new HashMap<>();
                     int playerCount = r.readInt();
                     for (int i = 0; i < playerCount; i++) {
                         PlayerState ps = new PlayerState();
@@ -184,10 +182,12 @@ public class GameClient {
                         if (ps.id == state.getMyPlayer().id) {
                             state.setMe(ps);
                         }
-                        state.setPlayer(ps);
+                        newPlayers.put(ps.id, ps);
                     }
+                    state.setPlayers(newPlayers);
 
                     int bulletCount = r.readInt();
+                    ArrayList<BulletState> newBullets = new ArrayList<>();
                     for (int i = 0; i < bulletCount; i++) {
                         BulletState b = new BulletState(
                                 r.readInt(),
@@ -195,8 +195,9 @@ public class GameClient {
                                 r.readFloat(),
                                 r.readFloat()
                         );
-                        state.addBullet(b);
+                        newBullets.add(b);
                     }
+                    state.addBullets(newBullets);
 
                     int orbCount = r.readInt();
 

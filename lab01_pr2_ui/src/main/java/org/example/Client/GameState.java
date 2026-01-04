@@ -7,11 +7,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GameState {
 
-    private final Map<Integer, PlayerState> players = new HashMap<>();
-    private final List<BulletState> bullets = new ArrayList<>();
+    private Map<Integer, PlayerState> players = new HashMap<>();
+    private List<BulletState> bullets = new ArrayList<>();
+    private final Object bulletsLock = new Object();
     Map<Integer, OrbState> orbs = new ConcurrentHashMap<>();
     private final Object orbsLock = new Object();
     protected PlayerState me = new PlayerState();
+    private final Object playersLock = new Object();
     public PlayerStatsLevels statsLevels = new PlayerStatsLevels();
     public boolean isOverlayVisible = true;
 
@@ -29,36 +31,39 @@ public class GameState {
         }
     }
 
-    public synchronized Collection<OrbState> getOrbs() {
-        return new ArrayList<>(orbs.values());
+    public Collection<OrbState> getOrbs() {
+        synchronized (orbsLock) {
+            return new ArrayList<>(orbs.values());
+        }
     }
 
-    public synchronized void setPlayer(PlayerState p) {
-        players.put(p.id, p);
+    public void setPlayers(Map<Integer, PlayerState> newPlayers) {
+        synchronized (playersLock) {
+            this.players = new HashMap<>(newPlayers);
+        }
     }
 
-    public synchronized void clearPlayers() {
-        players.clear();
+    public Collection<PlayerState> getPlayers() {
+        synchronized (playersLock) {
+            return new ArrayList<>(players.values());
+        }
     }
 
-    public synchronized Collection<PlayerState> getPlayers() {
-        return new ArrayList<>(players.values());
+    public PlayerState getMyPlayer() {
+        synchronized (playersLock) {
+            return me;
+        }
     }
 
-    public synchronized PlayerState getMyPlayer() {
-        return me;
+    public List<BulletState> getBullets() {
+        synchronized (bulletsLock) {
+            return new ArrayList<>(bullets);
+        }
     }
 
-    public synchronized void addBullet(BulletState b) {
-        bullets.add(b);
+    public void addBullets(ArrayList<BulletState> newBullets) {
+        synchronized (bulletsLock) {
+            this.bullets = new ArrayList<>(newBullets);
+        }
     }
-
-    public synchronized void clearBullets() {
-        bullets.clear();
-    }
-
-    public synchronized List<BulletState> getBullets() {
-        return new ArrayList<>(bullets);
-    }
-
 }
