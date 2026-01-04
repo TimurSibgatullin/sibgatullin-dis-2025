@@ -3,14 +3,13 @@ import org.example.CommonFiles.PlayerStatsLevels;
 import org.example.Server.Player;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GameState {
 
     private Map<Integer, PlayerState> players = new HashMap<>();
     private List<BulletState> bullets = new ArrayList<>();
     private final Object bulletsLock = new Object();
-    Map<Integer, OrbState> orbs = new ConcurrentHashMap<>();
+    Map<Integer, OrbState> orbs = new HashMap<>();
     private final Object orbsLock = new Object();
     protected PlayerState me = new PlayerState();
     private final Object playersLock = new Object();
