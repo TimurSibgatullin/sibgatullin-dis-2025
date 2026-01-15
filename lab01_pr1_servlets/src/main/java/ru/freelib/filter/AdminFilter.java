@@ -17,7 +17,7 @@ public class AdminFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect(request.getContextPath() + "/auth/usercheck");
             return;
         }
         User user = (User) session.getAttribute("user");

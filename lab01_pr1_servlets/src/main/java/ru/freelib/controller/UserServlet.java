@@ -35,11 +35,14 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setAttribute("currentContext", request.getContextPath());
         Long userId = Long.parseLong(request.getParameter("id"));
-        User user = userService.findById(userId);
+        User user = (User) request.getSession().getAttribute("user");
         request.setAttribute("user", user);
-        request.setAttribute("myFavoriteBooks", favoriteService.getFavorites(user.getId()));
-        request.setAttribute("myBooks", bookService.findByAuthor(user.getId()));
-        request.setAttribute("myComments", commentService.getByUser(user.getId()));
-        request.getRequestDispatcher("/user.ftlh").forward(request, response);
+        Long anotherUserId = Long.parseLong(request.getParameter("id"));
+        User anotherUser = userService.findById(anotherUserId);
+        request.setAttribute("anotherUser", anotherUser);
+        request.setAttribute("myFavoriteBooks", favoriteService.getFavorites(anotherUser.getId()));
+        request.setAttribute("myBooks", bookService.findByAuthor(anotherUser.getId()));
+        request.setAttribute("myComments", commentService.getByUser(anotherUser.getId()));
+        request.getRequestDispatcher("/public-profile.ftlh").forward(request, response);
     }
 }

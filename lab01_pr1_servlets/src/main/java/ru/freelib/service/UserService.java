@@ -35,11 +35,6 @@ public class UserService {
         return userDao.findById(id);
     }
 
-    public boolean adminRegister(String role, String nickname, String description) {
-        User user = new User("", "", role, nickname, description);
-        return (userDao.save(user) > 0);
-    }
-
     public User findByNickname(String author) {
         return userDao.findByNickname(author);
     }

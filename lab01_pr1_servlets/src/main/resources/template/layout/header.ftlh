@@ -14,6 +14,8 @@
 
             <#if user.role == "admin">
                 |
+                <a href="${currentContext}/upload">Загрузить книгу</a>
+                |
                 <a href="${currentContext}/admin">Админ-панель</a>
             </#if>
             |

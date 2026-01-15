@@ -32,7 +32,6 @@ public class CommentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("currentContext", request.getContextPath());
-
         User user = ((User) request.getSession().getAttribute("user"));
         Book book =  bookService.getById(Long.parseLong(request.getParameter("bookId")));
         String text = request.getParameter("text");
