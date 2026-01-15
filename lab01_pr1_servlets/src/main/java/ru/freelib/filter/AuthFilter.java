@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebFilter({"/profile", "/profile/*", "/comment/*"})
+@WebFilter({"/profile", "/profile/*", "/comment/*", "/profile-edit", "/profile-edit/*"})
 public class AuthFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {

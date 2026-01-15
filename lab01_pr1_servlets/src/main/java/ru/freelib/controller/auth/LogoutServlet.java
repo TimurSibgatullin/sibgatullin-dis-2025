@@ -17,7 +17,7 @@ public class LogoutServlet extends HttpServlet {
     final static Logger logger = LogManager.getLogger(LogoutServlet.class);
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session != null) {
             session.invalidate();

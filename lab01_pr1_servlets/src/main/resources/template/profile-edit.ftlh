@@ -31,7 +31,7 @@
             <p>
             <form method="get" action="${currentContext}/edit-my-book">
                 <input type="hidden" name="id" value="${book.id}" required>
-                <button type="submit">${book.title}</button>
+                <button type="submit" class="usual-button">${book.title}</button>
             </form>
             </p>
         </#list>

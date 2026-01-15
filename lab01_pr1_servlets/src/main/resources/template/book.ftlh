@@ -5,7 +5,7 @@
     <p><b>Жанр:</b> ${book.genre.name}</p>
     <p><b>Описание:</b> ${book.description}</p>
     <#if user??>
-        <p><button id="favBtn"
+        <p><button id="favBtn" class="usual-button"
                 data-id="${book.id}"
                 data-fav="${book.favorite?string("true", "false")}">
             ${book.favorite?string("Удалить из избранного", "Добавить в избранное")}
@@ -55,7 +55,7 @@
         <form method="post" action="${currentContext}/book">
             <input type="hidden" name="bookId" value="${book.id}">
             <textarea name="comment" rows="3" cols="40" required></textarea><br>
-            <button type="submit">Оставить комментарий</button>
+            <button type="submit" class="usual-button">Оставить комментарий</button>
         </form>
     </p>
 </@base.layout>

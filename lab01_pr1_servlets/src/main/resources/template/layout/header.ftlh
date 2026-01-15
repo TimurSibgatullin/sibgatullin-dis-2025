@@ -19,8 +19,9 @@
                 <a href="${currentContext}/admin">Админ-панель</a>
             </#if>
             |
-            <a href="${currentContext}/auth/logout">Выход</a>
-
+            <form action="${currentContext}/auth/logout" method="post" style="display:inline;">
+                <button type="submit" class="link-button">Выход</button>
+            </form>
         <#else>
             |
             <a href="${currentContext}/auth/usercheck">Вход</a>

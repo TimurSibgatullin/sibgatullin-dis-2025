@@ -11,7 +11,7 @@
             <p>
                 <form method="get" action="${currentContext}/admin/edit-genre">
                     <input type="hidden" name="id" value="${genre.id}" required>
-                    <button type="submit">${genre.name}</button>
+                    <button type="submit" class="usual-button">${genre.name}</button>
                 </form>
             </p>
         </#list>

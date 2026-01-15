@@ -38,7 +38,7 @@
             </div>
         </p>
         <div style="margin-top: 10px;">
-            <button type="submit">Загрузить</button>
+            <button type="submit" class="usual-button">Загрузить</button>
         </div>
     </form>
 </@base.layout>

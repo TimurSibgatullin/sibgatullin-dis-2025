@@ -11,7 +11,7 @@
             <p>
                 <form method="get" action="${currentContext}/admin/edit-author">
                     <input type="hidden" name="id" value="${author.id}" required>
-                    <button type="submit">${author.nickname}</button>
+                    <button type="submit" class="usual-button">${author.nickname}</button>
                 </form>
             </p>
         </#list>

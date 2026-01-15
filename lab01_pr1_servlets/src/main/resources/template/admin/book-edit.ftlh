@@ -34,7 +34,7 @@
         </p>
 
         <div style="margin-top: 10px;">
-            <button type="submit">Обновить</button>
+            <button type="submit" class="usual-button">Обновить</button>
         </div>
         <p>
     </form>
