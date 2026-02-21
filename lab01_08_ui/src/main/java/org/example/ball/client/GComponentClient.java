@@ -17,14 +17,13 @@ public class GComponentClient extends JComponent {
 
     Image image;
     Socket socket;
-    volatile boolean gameOver = false;
 
     private DataInputStream dis;
     private DataOutputStream dos;
 
     public GComponentClient() throws IOException {
         socket = new Socket("127.0.0.1", 50000);
-        image = new ImageIcon(getClass().getResource("/ball.png")).getImage();
+        image = new ImageIcon(getClass().getResource("/dvd64.png")).getImage();
         setDoubleBuffered(true);
 
         addMouseMotionListener(new MouseMotionAdapter() {
@@ -50,10 +49,6 @@ public class GComponentClient extends JComponent {
                     bYS = dis.readInt();
                     x = dis.readInt();
                     y = dis.readInt();
-                    gameOver = dis.readBoolean();
-                    if (gameOver) {
-                        System.out.println("Game over!");
-                    }
                     dos.writeInt(bYC);
                     dos.flush();
                     SwingUtilities.invokeLater(this::repaint);
@@ -68,7 +63,7 @@ public class GComponentClient extends JComponent {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (!gameOver && image != null) g2d.drawImage(image, x, y, null);
+        if (image != null) g2d.drawImage(image, x, y, null);
         g2d.fillRect(10, bYS, 10, 200);
         g2d.fillRect(getWidth() - 20, bYC, 10, 200);
     }

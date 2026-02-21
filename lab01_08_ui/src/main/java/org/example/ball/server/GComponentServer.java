@@ -34,7 +34,7 @@ public class GComponentServer extends JComponent {
         move_left = Math.random() > 0.5;
         move_up = Math.random() > 0.5;
 
-        image = new ImageIcon(getClass().getResource("/ball.png")).getImage();
+        image = new ImageIcon(getClass().getResource("/dvd64.png")).getImage();
         setDoubleBuffered(true);
 
         addMouseMotionListener(new MouseAdapter() {
@@ -93,7 +93,6 @@ public class GComponentServer extends JComponent {
             dos.writeInt(bYS);
             dos.writeInt(x);
             dos.writeInt(y);
-            dos.writeBoolean(gameOver);
             dos.flush();
         } catch (IOException e) {
             gameOver = true;

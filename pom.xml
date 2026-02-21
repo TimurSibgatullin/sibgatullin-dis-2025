@@ -20,8 +20,8 @@
         <module>lab01_07_ajax</module>
         <module>lab01_08_ui</module>
         <module>lab01_pr2_ui</module>
-        <module>lab01_exam</module>
         <module>lab02_01_context</module>
+        <module>lab02_02_spring_context</module>
     </modules>
 
     <properties>

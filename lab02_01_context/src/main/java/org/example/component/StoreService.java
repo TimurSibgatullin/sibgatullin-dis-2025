@@ -13,6 +13,9 @@ import java.util.List;
 public class StoreService {
     private Base base = new Base();
 
+    public StoreService() {
+    }
+
     public void add(String name) {
         base.getStores().add(new Store(name));
     }

@@ -7,7 +7,7 @@ import java.io.IOException;
 public class GraphDemoClient extends JFrame {
 
     public GraphDemoClient() throws IOException {
-        super("game");
+        super("Client");
         setSize(700, 700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -22,8 +22,12 @@ public class GraphDemoClient extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            try { new GraphDemoClient(); }
-            catch (IOException e) { throw new RuntimeException(e); }
+            try {
+                new GraphDemoClient();
+            }
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }
