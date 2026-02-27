@@ -1,6 +1,7 @@
 package org.example.config;
 
 import org.example.annotition.Component;
+import org.example.annotition.Controller;
 
 import java.io.File;
 import java.net.URL;
@@ -33,7 +34,7 @@ public class PathScan {
             String className = resource.substring(0, resource.length() - 6);
             try {
                 Class clazz = Class.forName(className);
-                if (clazz.isAnnotationPresent(Component.class)) {
+                if (clazz.isAnnotationPresent(Component.class) || clazz.isAnnotationPresent(Controller.class)) {
                     classes.add(Class.forName (className));
                 }
             } catch (ClassNotFoundException ignore) {

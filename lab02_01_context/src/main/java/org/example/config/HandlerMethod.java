@@ -2,7 +2,7 @@ package org.example.config;
 
 import java.lang.reflect.Method;
 
-public class HandlerMethod {
+class HandlerMethod {
     private final Object controllerInstance;
     private final Method method;
 
@@ -18,4 +18,5 @@ public class HandlerMethod {
     public Method getMethod() {
         return method;
     }
+
 }

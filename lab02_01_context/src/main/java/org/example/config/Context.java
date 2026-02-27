@@ -10,9 +10,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Context {
+
     private String scanPath = "org.example";
+    private Map<Class<?>, Object> components = new HashMap<>();
+
+    private Map<String, HandlerMethod> requestMappings = new HashMap<>();
+
     private Map<Class<?>, Object> components = new HashMap<>();
 
     private Map<String, HandlerMethod> requestMappings = new HashMap<>();
@@ -92,6 +105,25 @@ public class Context {
                         GetMapping mappingAnnotation = method.getAnnotation(GetMapping.class);
                         String path = mappingAnnotation.value();
 
+                        HandlerMethod handler = new HandlerMethod(beanInstance, method);
+                        requestMappings.put(path, handler);
+                        System.out.println("Зарегистрирован обработчик GET для '" + path + "' -> " + method);
+                    }
+                }
+            }
+        }
+    }
+
+    private void registerRequestHandlers() {
+        for (Map.Entry<Class<?>, Object> entry : components.entrySet()) {
+            Class<?> beanType = entry.getKey();
+            Object beanInstance = entry.getValue();
+            if (beanType.isAnnotationPresent(Controller.class)) {
+                Method[] methods = beanType.getDeclaredMethods();
+                for (Method method : methods) {
+                    if (method.isAnnotationPresent(GetMapping.class)) {
+                        GetMapping mappingAnnotation = method.getAnnotation(GetMapping.class);
+                        String path = mappingAnnotation.value();
                         HandlerMethod handler = new HandlerMethod(beanInstance, method);
                         requestMappings.put(path, handler);
                         System.out.println("Зарегистрирован обработчик GET для '" + path + "' -> " + method);

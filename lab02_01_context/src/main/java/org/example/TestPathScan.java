@@ -1,18 +1,43 @@
 package org.example;
 
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.startup.Tomcat;
 import org.example.component.Application;
 import org.example.config.Context;
+import org.example.config.DispatcherServlet;
 import org.example.config.PathScan;
 
+import java.io.File;
 import java.util.List;
 
 public class TestPathScan {
     public static void main(String[] args) {
-//        List<Class<?>> classes = PathScan.find("org.example");
-//        classes.forEach(System.out::println);
-        Context context = new Context();
+        Context applicationContext = new Context();
 
-        Application application = (Application) context.getComponent(Application.class);
-        application.run();
+        Tomcat tomcat = new Tomcat();
+        tomcat.setBaseDir("temp");
+        Connector conn = new Connector();
+        conn.setPort(8090);
+        tomcat.setConnector(conn);
+
+        String contextPath = "";
+        String docBase = new File(".").getAbsolutePath();
+        org.apache.catalina.Context tomcatContext = tomcat.addContext(contextPath, docBase);
+
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(applicationContext);
+
+        String servletName = "dispatcherServlet";
+        tomcat.addServlet(contextPath, servletName, dispatcherServlet);
+        tomcatContext.addServletMappingDecoded("/*", servletName);
+
+        try {
+            tomcat.start();
+            System.out.println("Tomcat started on port " + conn.getPort());
+            tomcat.getServer().await();
+        } catch (LifecycleException e) {
+            System.err.println("Ошибка при запуске Tomcat:");
+            e.printStackTrace();
+        }
     }
 }

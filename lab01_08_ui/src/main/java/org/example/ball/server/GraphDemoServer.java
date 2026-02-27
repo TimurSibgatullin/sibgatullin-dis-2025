@@ -11,7 +11,7 @@ import java.net.Socket;
 public class GraphDemoServer extends JFrame {
 
     public GraphDemoServer() {
-        super("game");
+        super("Server");
 
         setSize(700, 700);
         setLocationRelativeTo(null);
@@ -43,10 +43,14 @@ public class GraphDemoServer extends JFrame {
                         this.setFocusable(true);
                         this.requestFocusInWindow();
 
-                    } catch (Exception ex) { ex.printStackTrace(); }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 });
 
-            } catch (IOException e) { e.printStackTrace(); }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }).start();
     }
 
