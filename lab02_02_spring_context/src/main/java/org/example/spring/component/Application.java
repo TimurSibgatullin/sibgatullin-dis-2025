@@ -1,9 +1,8 @@
-package org.example.component;
+package org.example.spring.component;
 
-import org.example.component.MarketService;
-import org.example.model.Category;
-import org.example.model.Order;
-import org.example.model.Product;
+import org.example.spring.model.Category;
+import org.example.spring.model.Order;
+import org.example.spring.model.Product;
 import org.springframework.stereotype.Component;
 
 

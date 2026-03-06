@@ -1,21 +1,18 @@
-package org.example.model;
+package org.example.spring.model;
 
-public class ImportProduct {
+public class Order {
     private Product product;
     private Integer count;
     private String client;
-    private String supplier;
 
-    public ImportProduct(Product product, Integer count, String client, String supplier) {
+    public Order(Product product, Integer count, String client) {
         this.product = product;
         this.count = count;
         this.client = client;
-        this.supplier = supplier;
     }
 
-    public ImportProduct() {
+    public Order() {
     }
-
 
     public Product getProduct() {
         return product;
@@ -39,13 +36,5 @@ public class ImportProduct {
 
     public void setClient(String client) {
         this.client = client;
-    }
-
-    public String getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
     }
 }

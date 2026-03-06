@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.spring.model;
 
 import java.math.BigDecimal;
 import java.util.Objects;

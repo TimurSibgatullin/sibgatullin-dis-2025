@@ -1,11 +1,9 @@
-package org.example.component;
+package org.example.spring.component;
 
-import org.example.model.ImportProduct;
-import org.example.model.Market;
-import org.example.model.Order;
-import org.springframework.stereotype.Controller;
+import org.example.spring.model.ImportProduct;
+import org.example.spring.model.Market;
+import org.example.spring.model.Order;
 
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 
