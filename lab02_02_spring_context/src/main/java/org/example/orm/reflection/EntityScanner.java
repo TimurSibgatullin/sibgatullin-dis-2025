@@ -9,42 +9,6 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.io.File;
 public class EntityScanner {
-    public static Set<Class<?>> findEntities(String packageName) {
-        Set<Class<?>> entities = new HashSet<>();
-        try {
-            String path = packageName.replace(".", "/");
-            java.net.URL url = Thread.currentThread().getContextClassLoader().getResource(path);
-            if (url != null) {
-                File directory = new java.io.File(url.getFile());
-                scanDirectory(directory, packageName, entities);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("error", e);
-        }
-        return entities;
-    }
-
-    private static void scanDirectory(File directory, String packageName, Set<Class<?>> entities) {
-        if (!directory.exists()) {
-            return;
-        }
-        for (File file : Objects.requireNonNull(directory.listFiles())) {
-            if (file.isDirectory()) {
-                scanDirectory(file, packageName + "." + file.getName(), entities);
-            } else if (file.getName().endsWith(".class")) {
-                String className = packageName + "." + file.getName().substring(0, file.getName().length() - 6);
-                try {
-                    Class<?> clazz = Class.forName(className);
-                    if (clazz.isAnnotationPresent(Entity.class)) {
-                        entities.add(clazz);
-                    }
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
-
     public static Map<String, List<Field>> analyzeEntities(Set<Class<?>> entities) {
         Map<String, List<Field>> entityFields = new HashMap<>();
 

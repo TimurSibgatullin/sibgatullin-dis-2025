@@ -1,15 +1,13 @@
 package org.example.orm.reflection;
-
-import org.example.orm.annotation.Column;
 import org.example.orm.annotation.Entity;
 import org.example.orm.annotation.Id;
-import org.example.orm.annotation.ManyToOne;
 
 import java.lang.reflect.Field;
-import java.sql.*;
-import java.util.*;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntityManagerImpl implements EntityManager {
 
@@ -21,279 +19,249 @@ public class EntityManagerImpl implements EntityManager {
 
     @Override
     public <T> T save(T entity) {
-        Class<?> entityClass = entity.getClass();
-        String tableName = EntityScanner.getTableName(entityClass);
-
         try {
-            Field idField = getIdField(entityClass);
-            Object idValue = getFieldValue(idField, entity);
+            Field idField = getIdField(entity.getClass());
+            Object id = getValue(idField, entity);
 
-            if (idValue == null || (idValue instanceof Number && ((Number) idValue).longValue() == 0)) {
-                return insert(entity);
+            if (id == null || (id instanceof Number && ((Number) id).longValue() == 0)) {
+                insert(entity);
             } else {
                 update(entity);
-                return entity;
             }
+
+            return entity;
+
         } catch (Exception e) {
-            throw new RuntimeException("Error saving entity", e);
+            throw new RuntimeException(e);
         }
+    }
+
+    private <T> void insert(T entity) throws Exception {
+
+        Class<?> clazz = entity.getClass();
+        String table = EntityScanner.getTableName(clazz);
+
+        Field[] fields = clazz.getDeclaredFields();
+
+        StringBuilder columns = new StringBuilder();
+        StringBuilder values = new StringBuilder();
+
+        for (Field f : fields) {
+            if (!f.isAnnotationPresent(Id.class)) {
+                columns.append(EntityScanner.getColumnName(f)).append(",");
+                values.append("?,");
+            }
+        }
+
+        columns.deleteCharAt(columns.length() - 1);
+        values.deleteCharAt(values.length() - 1);
+
+        String sql = "INSERT INTO " + table +
+                " (" + columns + ") VALUES (" + values + ") RETURNING id";
+
+        PreparedStatement stmt = connection.prepareStatement(sql);
+
+        int index = 1;
+
+        for (Field f : fields) {
+            if (!f.isAnnotationPresent(Id.class)) {
+                Object value = getValue(f, entity);
+
+                if (value != null && value.getClass().isAnnotationPresent(Entity.class)) {
+                    Field idField = getIdField(value.getClass());
+                    value = getValue(idField, value);
+                }
+
+                stmt.setObject(index++, value);
+            }
+        }
+
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            Field idField = getIdField(clazz);
+            idField.setAccessible(true);
+            idField.set(entity, rs.getObject(1));
+        }
+    }
+
+    private void update(Object entity) throws Exception {
+
+        Class<?> clazz = entity.getClass();
+        String table = EntityScanner.getTableName(clazz);
+
+        Field[] fields = clazz.getDeclaredFields();
+
+        StringBuilder set = new StringBuilder();
+
+        for (Field f : fields) {
+            if (!f.isAnnotationPresent(Id.class)) {
+                set.append(EntityScanner.getColumnName(f)).append("=?,");
+            }
+        }
+
+        set.deleteCharAt(set.length() - 1);
+
+        String sql = "UPDATE " + table + " SET " + set + " WHERE id=?";
+
+        PreparedStatement stmt = connection.prepareStatement(sql);
+
+        int index = 1;
+
+        for (Field f : fields) {
+            if (!f.isAnnotationPresent(Id.class)) {
+                Object value = getValue(f, entity);
+
+                if (value != null && value.getClass().isAnnotationPresent(Entity.class)) {
+                    Field idField = getIdField(value.getClass());
+                    value = getValue(idField, value);
+                }
+
+                stmt.setObject(index++, value);
+            }
+        }
+
+        stmt.setObject(index, getValue(getIdField(clazz), entity));
+
+        stmt.executeUpdate();
     }
 
     @Override
     public void remove(Object entity) {
-        Class<?> entityClass = entity.getClass();
-        String tableName = EntityScanner.getTableName(entityClass);
 
         try {
-            Field idField = getIdField(entityClass);
-            Object idValue = getFieldValue(idField, entity);
+            Class<?> clazz = entity.getClass();
+            String table = EntityScanner.getTableName(clazz);
 
-            String sql = "DELETE FROM " + tableName + " WHERE id = ?";
+            Field idField = getIdField(clazz);
 
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setObject(1, idValue);
-                stmt.executeUpdate();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error removing entity", e);
-        }
-    }
+            String sql = "DELETE FROM " + table + " WHERE id=?";
 
-    @Override
-    public <T> T find(Class<T> entityType, Object key) {
-        String tableName = EntityScanner.getTableName(entityType);
-        List<Field> fields = getAllFieldsForSelect(entityType);
-
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT ");
-
-        List<String> columnNames = new ArrayList<>();
-        for (Field field : fields) {
-            columnNames.add(EntityScanner.getColumnName(field));
-        }
-        sql.append(String.join(", ", columnNames));
-        sql.append(" FROM ").append(tableName).append(" WHERE id = ?");
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
-            stmt.setObject(1, key);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return mapResultSetToEntity(rs, entityType, fields);
-            }
-            return null;
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding entity", e);
-        }
-    }
-
-    @Override
-    public <T> List<T> findAll(Class<T> entityType) {
-        String tableName = EntityScanner.getTableName(entityType);
-        List<Field> fields = getAllFieldsForSelect(entityType);
-
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT ");
-
-        List<String> columnNames = new ArrayList<>();
-        for (Field field : fields) {
-            columnNames.add(EntityScanner.getColumnName(field));
-        }
-        sql.append(String.join(", ", columnNames));
-        sql.append(" FROM ").append(tableName);
-
-        List<T> results = new ArrayList<>();
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql.toString());
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                results.add(mapResultSetToEntity(rs, entityType, fields));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding all entities", e);
-        }
-
-        return results;
-    }
-
-    private List<Field> getAllFieldsForSelect(Class<?> entityType) {
-        Field[] declaredFields = entityType.getDeclaredFields();
-        List<Field> fields = new ArrayList<>();
-
-        for (Field field : declaredFields) {
-            if (field.isAnnotationPresent(Column.class) ||
-                    field.isAnnotationPresent(Id.class) ||
-                    field.isAnnotationPresent(ManyToOne.class)) {
-                fields.add(field);
-            }
-        }
-
-        return fields;
-    }
-
-    private <T> T insert(T entity) throws Exception {
-        Class<?> entityClass = entity.getClass();
-        String tableName = EntityScanner.getTableName(entityClass);
-        List<Field> fields = getInsertableFields(entityClass);
-
-        StringBuilder sql = new StringBuilder();
-        sql.append("INSERT INTO ").append(tableName).append(" (");
-
-        List<String> columnNames = new ArrayList<>();
-        for (Field field : fields) {
-            columnNames.add(EntityScanner.getColumnName(field));
-        }
-        sql.append(String.join(", ", columnNames));
-        sql.append(") VALUES (");
-
-        List<String> placeholders = new ArrayList<>();
-        for (int i = 0; i < fields.size(); i++) {
-            placeholders.add("?");
-        }
-        sql.append(String.join(", ", placeholders));
-        sql.append(") RETURNING id");
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
-            int paramIndex = 1;
-            for (Field field : fields) {
-                Object value = getPreparedValueForDb(field, entity);
-                stmt.setObject(paramIndex++, value);
-            }
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                Field idField = getIdField(entityClass);
-                idField.setAccessible(true);
-                idField.set(entity, rs.getObject("id"));
-            }
-        }
-
-        return entity;
-    }
-
-    private void update(Object entity) throws Exception {
-        Class<?> entityClass = entity.getClass();
-        String tableName = EntityScanner.getTableName(entityClass);
-        List<Field> fields = getUpdatableFields(entityClass);
-
-        StringBuilder sql = new StringBuilder();
-        sql.append("UPDATE ").append(tableName).append(" SET ");
-
-        List<String> setClauses = new ArrayList<>();
-        for (Field field : fields) {
-            setClauses.add(EntityScanner.getColumnName(field) + " = ?");
-        }
-        sql.append(String.join(", ", setClauses));
-        sql.append(" WHERE id = ?");
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
-            int paramIndex = 1;
-
-            for (Field field : fields) {
-                Object value = getPreparedValueForDb(field, entity);
-                stmt.setObject(paramIndex++, value);
-            }
-
-            Field idField = getIdField(entityClass);
-            Object idValue = getFieldValue(idField, entity);
-            stmt.setObject(paramIndex, idValue);
-
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setObject(1, getValue(idField, entity));
             stmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private List<Field> getInsertableFields(Class<?> entityClass) {
-        Field[] fields = entityClass.getDeclaredFields();
-        List<Field> insertable = new ArrayList<>();
+    @Override
+    public <T> T find(Class<T> type, Object id) {
 
-        for (Field field : fields) {
-            if (!EntityScanner.isIdField(field) &&
-                    (field.isAnnotationPresent(Column.class) ||
-                            field.isAnnotationPresent(ManyToOne.class))) {
-                insertable.add(field);
+        try {
+
+            String table = EntityScanner.getTableName(type);
+            Field[] fields = type.getDeclaredFields();
+
+            StringBuilder columns = new StringBuilder();
+
+            for (Field f : fields) {
+                columns.append(EntityScanner.getColumnName(f)).append(",");
             }
-        }
 
-        return insertable;
-    }
+            columns.deleteCharAt(columns.length() - 1);
 
-    private List<Field> getUpdatableFields(Class<?> entityClass) {
-        Field[] fields = entityClass.getDeclaredFields();
-        List<Field> updatable = new ArrayList<>();
+            String sql = "SELECT " + columns + " FROM " + table + " WHERE id=?";
 
-        for (Field field : fields) {
-            if (!EntityScanner.isIdField(field) &&
-                    (field.isAnnotationPresent(Column.class) ||
-                            field.isAnnotationPresent(ManyToOne.class))) {
-                updatable.add(field);
-            }
-        }
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setObject(1, id);
 
-        return updatable;
-    }
+            ResultSet rs = stmt.executeQuery();
 
-    private Object getPreparedValueForDb(Field field, Object entity) throws Exception {
-        Object value = getFieldValue(field, entity);
+            if (!rs.next()) return null;
 
-        if (value != null && EntityScanner.isForeignKey(field)) {
-            // Если это связанная сущность, извлекаем ее ID
-            if (field.getType().isAnnotationPresent(Entity.class)) {
-                Field idField = getIdField(value.getClass());
-                return getFieldValue(idField, value);
-            }
-        }
+            T entity = type.getDeclaredConstructor().newInstance();
 
-        return value;
-    }
+            for (Field f : fields) {
+                f.setAccessible(true);
+                Object value = rs.getObject(EntityScanner.getColumnName(f));
 
-    private <T> T mapResultSetToEntity(ResultSet rs, Class<T> entityType, List<Field> fields) throws Exception {
-        T entity = entityType.getDeclaredConstructor().newInstance();
+                if (value != null && f.getType().isAnnotationPresent(Entity.class)) {
 
-        for (Field field : fields) {
-            String columnName = EntityScanner.getColumnName(field);
-            Object value = rs.getObject(columnName);
+                    Object related = find(f.getType(), value);
+                    f.set(entity, related);
 
-            if (value != null) {
-                field.setAccessible(true);
-
-                if (EntityScanner.isForeignKey(field)) {
-                    // Загружаем связанную сущность по ID
-                    Class<?> relatedEntityType = field.getType();
-                    if (relatedEntityType.isAnnotationPresent(Entity.class)) {
-                        // Загружаем связанную сущность
-                        Object relatedEntity = find(relatedEntityType, value);
-                        field.set(entity, relatedEntity);
-                    } else {
-                        // Если тип не сущность, просто устанавливаем значение
-                        field.set(entity, value);
-                    }
                 } else {
-                    // Простое поле
-                    field.set(entity, value);
+
+                    f.set(entity, value);
                 }
             }
-        }
 
-        return entity;
+            return entity;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private Field getIdField(Class<?> entityClass) {
-        for (Field field : entityClass.getDeclaredFields()) {
-            if (EntityScanner.isIdField(field)) {
-                return field;
+    @Override
+    public <T> List<T> findAll(Class<T> type) {
+
+        try {
+            String table = EntityScanner.getTableName(type);
+            Field[] fields = type.getDeclaredFields();
+
+            StringBuilder columns = new StringBuilder();
+
+            for (Field f : fields) {
+                columns.append(EntityScanner.getColumnName(f)).append(",");
+            }
+
+            columns.deleteCharAt(columns.length() - 1);
+
+            String sql = "SELECT " + columns + " FROM " + table;
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            List<T> result = new ArrayList<>();
+
+            while (rs.next()) {
+
+                T entity = type.getDeclaredConstructor().newInstance();
+
+                for (Field f : fields) {
+                    f.setAccessible(true);
+                    Object value = rs.getObject(EntityScanner.getColumnName(f));
+
+                    if (value != null && f.getType().isAnnotationPresent(Entity.class)) {
+
+                        Object related = find(f.getType(), value);
+                        f.set(entity, related);
+
+                    } else {
+
+                        f.set(entity, value);
+                    }
+                }
+
+                result.add(entity);
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Field getIdField(Class<?> clazz) {
+
+        for (Field f : clazz.getDeclaredFields()) {
+            if (f.isAnnotationPresent(Id.class)) {
+                return f;
             }
         }
-        throw new RuntimeException("No @Id field found in class: " + entityClass.getName());
+
+        throw new RuntimeException("No id field");
     }
 
-    private Object getFieldValue(Field field, Object obj) throws Exception {
+    private Object getValue(Field field, Object obj) throws Exception {
         field.setAccessible(true);
         return field.get(obj);
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
+    public Connection getConnection() { return connection; }
 
 }
