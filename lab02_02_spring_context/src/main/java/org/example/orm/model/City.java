@@ -8,7 +8,7 @@ import org.example.orm.annotation.ManyToOne;
 @Entity
 public class City {
     @Id
-    Long id;
+    Integer id;
     @Column
     String name;
     @ManyToOne
@@ -22,11 +22,11 @@ public class City {
         this.country = country;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

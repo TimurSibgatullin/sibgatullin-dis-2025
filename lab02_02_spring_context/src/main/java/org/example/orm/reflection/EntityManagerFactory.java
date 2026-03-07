@@ -23,15 +23,19 @@ public class EntityManagerFactory {
         config.setConnectionTimeout(30000);
         config.setIdleTimeout(600000);
         config.setMaxLifetime(1800000);
-
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         HikariDataSource dataSource = new HikariDataSource(config);
         return new EntityManagerFactory(dataSource);
     }
 
-    public EntityManager createEntityManager() {
+    public EntityManagerImpl createEntityManager() {
         try {
             Connection connection = dataSource.getConnection();
-            return new EntityManager(connection);
+            return new EntityManagerImpl(connection);
         } catch (SQLException e) {
             throw new RuntimeException("Error creating EntityManager", e);
         }

@@ -15,8 +15,13 @@ public class SchemaValidator {
             this.errors = errors;
         }
 
-        public boolean isValid() { return isValid; }
-        public List<String> getErrors() { return errors; }
+        public boolean isValid() {
+            return isValid;
+        }
+
+        public List<String> getErrors() {
+            return errors;
+        }
     }
 
     public static ValidationResult validateSchema(Connection connection,
@@ -27,13 +32,11 @@ public class SchemaValidator {
         for (Class<?> entityClass : entities) {
             String tableName = EntityScanner.getTableName(entityClass);
 
-            // 1. Проверяем наличие таблицы
             if (!tableExists(connection, tableName)) {
                 errors.add("Table '" + tableName + "' does not exist in database");
                 continue;
             }
 
-            // 2. Проверяем наличие полей в таблице
             List<String> expectedColumns = getExpectedColumns(entityClass, entityFields.get(tableName));
             List<String> actualColumns = getActualColumns(connection, tableName);
 

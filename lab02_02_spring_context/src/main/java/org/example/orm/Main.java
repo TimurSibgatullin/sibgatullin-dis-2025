@@ -3,10 +3,7 @@ package org.example.orm;
 import org.example.orm.model.City;
 import org.example.orm.model.Country;
 import org.example.orm.model.Street;
-import org.example.orm.reflection.EntityManager;
-import org.example.orm.reflection.EntityManagerFactory;
-import org.example.orm.reflection.EntityScanner;
-import org.example.orm.reflection.SQLGenerator;
+import org.example.orm.reflection.*;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -18,24 +15,19 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) {
-        // Настройка соединения
         EntityManagerFactory emf = EntityManagerFactory.create(
                 "jdbc:postgresql://localhost:5432/testdb",
-                "username",
-                "password"
+                "postgres",
+                "00000000"
         );
 
         try {
-            // Получаем EntityManager
-            EntityManager em = emf.createEntityManager();
+            EntityManagerImpl em = emf.createEntityManager();
 
-            // 1. Создаем схему БД
             createDatabaseSchema(em);
 
-            // 2. Проверяем соответствие
             validateSchema(em);
 
-            // 3. Тестируем функциональность
             testCRUDOperations(em);
 
         } finally {
@@ -43,11 +35,10 @@ public class Main {
         }
     }
 
-    private static void createDatabaseSchema(EntityManager em) {
+    private static void createDatabaseSchema(EntityManagerImpl em) {
         try {
             Connection conn = getConnectionFromEntityManager(em);
 
-            // Создаем таблицы
             String createCountrySql = """
                 CREATE TABLE IF NOT EXISTS country (
                     id SERIAL PRIMARY KEY,
@@ -84,24 +75,33 @@ public class Main {
         }
     }
 
+
     private static void validateSchema(EntityManager em) {
         try {
-            Connection conn = getConnectionFromEntityManager(em);
+            Connection conn = getConnectionFromEntityManager((EntityManagerImpl) em);
 
-            // Находим сущности (в реальном приложении это делается через сканер)
             Set<Class<?>> entities = Set.of(Country.class, City.class, Street.class);
             Map<String, List<Field>> entityFields = EntityScanner.analyzeEntities(entities);
 
+            SchemaValidator.ValidationResult result = SchemaValidator.validateSchema(conn, entities, entityFields);
+
+            if (result.isValid()) {
+                System.out.println("Schema validation passed");
+            } else {
+                System.out.println("Schema validation failed:");
+                for (String error : result.getErrors()) {
+                    System.out.println("  - " + error);
+                }
+            }
 
         } catch (Exception e) {
             throw new RuntimeException("Error validating schema", e);
         }
     }
 
-    private static void testCRUDOperations(EntityManager em) {
-        System.out.println("\n--- Testing CRUD Operations ---");
+    private static void testCRUDOperations(EntityManagerImpl em) {
+        System.out.println("\ncrud");
 
-        // Тестируем сохранение
         Country russia = new Country("Russia");
         russia = em.save(russia);
         System.out.println("Saved country with ID: " + russia.getId());
@@ -114,22 +114,19 @@ public class Main {
         arbat = em.save(arbat);
         System.out.println("Saved street with ID: " + arbat.getId());
 
-        // Тестируем поиск
         Country foundCountry = em.find(Country.class, russia.getId());
         System.out.println("Found country: " + foundCountry.getName());
 
         List<City> cities = em.findAll(City.class);
         System.out.println("Found " + cities.size() + " cities");
 
-        // Тестируем удаление
         em.remove(arbat);
         System.out.println("Deleted street");
     }
 
-    // Вспомогательный метод для получения Connection из EntityManager
-    private static Connection getConnectionFromEntityManager(EntityManager em) {
-        if (em instanceof EntityManager) {
-            return ((EntityManager) em).getConnection();
+    private static Connection getConnectionFromEntityManager(EntityManagerImpl em) {
+        if (em instanceof EntityManagerImpl) {
+            return ((EntityManagerImpl) em).getConnection();
         }
         throw new IllegalArgumentException("EntityManager must be instance of EntityManagerImpl");
     }

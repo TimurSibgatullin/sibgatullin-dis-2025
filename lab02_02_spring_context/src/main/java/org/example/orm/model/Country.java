@@ -7,7 +7,7 @@ import org.example.orm.annotation.Id;
 @Entity
 public class Country {
     @Id
-    Long id;
+    Integer id;
     @Column
     String name;
 
@@ -18,11 +18,11 @@ public class Country {
         this.name = name;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
