@@ -1,11 +1,13 @@
-package org.example.spring.component;
+package org.example.spring_context.component;
 
-import org.example.model.Fruit;
-import org.example.model.FruitType;
-import org.example.model.Store;
-import org.example.spring.model.Category;
-import org.example.spring.model.Order;
-import org.example.spring.model.Product;
+
+import org.example.spring_context.model.Fruit;
+import org.example.spring_context.model.FruitType;
+import org.example.spring_context.model.Store;
+import org.example.spring_context.model.Category;
+import org.example.spring_context.model.Order;
+import org.example.spring_context.model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -13,18 +15,23 @@ import java.math.BigDecimal;
 
 @Component("App")
 public class Application {
-    private final MarketService marketService;
-    private final StoreService storeService;
+    @Autowired
+    private MarketService marketService;
 
-    public Application(MarketService marketService, StoreService storeService) {
-        this.marketService = marketService;
-        this.storeService = storeService;
+    @Autowired
+    private StoreService storeService;
+
+    public Application() {
     }
 
     public void run() {
         try {
             marketService.doOrder(new Order(
-                    new Product("Personal Computer", "0001", Category.PC, BigDecimal.TWO),
+                    new Product(
+                    "Laptop",
+                    "B001",
+                    Category.LAPTOP,
+                    new BigDecimal("1200.00")),
                     10, "Client 1"));
 
             storeService.add("I");

@@ -36,5 +36,10 @@
             <version>10.1.18</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jasper</artifactId>
+            <version>10.1.18</version>
+        </dependency>
     </dependencies>
 </project>

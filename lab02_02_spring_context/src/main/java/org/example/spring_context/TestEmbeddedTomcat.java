@@ -1,11 +1,11 @@
-package org.example.tomcat;
+package org.example.spring_context;
 
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
-import org.example.config.Context;
-import org.example.config.DispatcherServlet;
+import org.example.spring_context.config.Context;
+import org.example.spring_context.config.DispatcherServlet;
 
 import java.io.File;
 

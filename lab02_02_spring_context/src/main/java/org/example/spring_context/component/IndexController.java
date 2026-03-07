@@ -1,9 +1,8 @@
-package org.example.component;
-
+package org.example.spring_context.component;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.annotition.Controller;
-import org.example.annotition.GetMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
 import java.io.PrintWriter;

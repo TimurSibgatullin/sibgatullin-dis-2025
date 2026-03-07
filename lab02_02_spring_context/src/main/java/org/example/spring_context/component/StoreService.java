@@ -1,13 +1,13 @@
-package org.example.spring.component;
+package org.example.spring_context.component;
 
-import org.example.annotition.Component;
-import org.example.model.Base;
-import org.example.model.Fruit;
-import org.example.model.FruitType;
-import org.example.model.Store;
+
+import org.example.spring_context.model.Base;
+import org.example.spring_context.model.Fruit;
+import org.example.spring_context.model.FruitType;
+import org.example.spring_context.model.Store;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 
 @Component
 public class StoreService {

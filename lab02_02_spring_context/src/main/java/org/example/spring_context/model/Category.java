@@ -1,6 +1,7 @@
-package org.example.spring.model;
+package org.example.spring_context.model;
 
 public enum Category {
+    FOOD,
     LAPTOP,
     PHONE,
     TV,

@@ -3,13 +3,10 @@ package org.example;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
-import org.example.component.Application;
 import org.example.config.Context;
 import org.example.config.DispatcherServlet;
-import org.example.config.PathScan;
 
 import java.io.File;
-import java.util.List;
 
 public class TestPathScan {
     public static void main(String[] args) {

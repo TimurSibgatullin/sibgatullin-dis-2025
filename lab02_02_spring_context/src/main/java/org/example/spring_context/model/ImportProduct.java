@@ -1,4 +1,4 @@
-package org.example.spring.model;
+package org.example.spring_context.model;
 
 public class ImportProduct {
     private Product product;
