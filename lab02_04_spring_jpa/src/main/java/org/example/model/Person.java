@@ -11,7 +11,8 @@ import static jakarta.persistence.InheritanceType.*;
 @Entity
 @Inheritance(strategy = JOINED)
 public class Person {
-
+    
+    @GeneratedValue
     @Id
     protected Long id;
 

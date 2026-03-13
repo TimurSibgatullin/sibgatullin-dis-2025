@@ -3,29 +3,27 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/*
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("ru.itis.dis403.lab2_4.repository")
-@ComponentScan("ru.itis.dis403.lab2_4")
-*/
 public class Config {
 
     @Bean
     public HikariConfig hikariConfig() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:postgresql://localhost:5432/lab2_4");
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
         config.setUsername("postgres");
-        config.setPassword("post");
+        config.setPassword("00000000");
         config.setDriverClassName("org.postgresql.Driver");
         return config;
     }
@@ -44,7 +42,7 @@ public class Config {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("ru.itis.dis403.lab2_4.model");
+        factory.setPackagesToScan("org.example.model");
         factory.setDataSource(dataSource());
         factory.setJpaProperties(additionalProperties());
         return factory;
