@@ -56,6 +56,10 @@ public class Person {
         this.name = name;
     }
 
+    public String getRole() {
+        return this.getClass().getSimpleName();
+    }
+
     @Override
     public String toString() {
         return

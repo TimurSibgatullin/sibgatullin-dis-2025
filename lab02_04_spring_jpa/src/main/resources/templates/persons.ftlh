@@ -13,8 +13,10 @@
 
     <#list persons as person>
         <div>
-            <span>${person.id}</span>
-            <span>${person.name}</span>
+            ${person.id}
+            ${person.name}
+            ${(person.phone.number)!"нет телефона"}
+            ${person.role}
         </div>
     </#list>
 

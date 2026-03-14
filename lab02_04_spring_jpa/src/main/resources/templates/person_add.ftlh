@@ -10,13 +10,21 @@
 <form action="/persons/add" method="post">
 
     <div>
-        <label>ID</label>
-        <input type="text" name="id">
+        <label>Имя</label>
+        <input type="text" name="name">
     </div>
 
     <div>
-        <label>Имя</label>
-        <input type="text" name="name">
+        <label>Телефон</label>
+        <input type="text" name="phone">
+    </div>
+
+    <div>
+        <label>Роль</label>
+        <select name="role">
+            <option value="ADMIN">Admin</option>
+            <option value="CLIENT">Client</option>
+        </select>
     </div>
 
     <button type="submit">Сохранить</button>
