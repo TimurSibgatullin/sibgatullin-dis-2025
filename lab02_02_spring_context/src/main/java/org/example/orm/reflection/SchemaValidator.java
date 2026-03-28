@@ -99,7 +99,7 @@ public class SchemaValidator {
 
         for (Field field : fields) {
             String columnName = EntityScanner.getColumnName(field);
-            columns.add(columnName.toLowerCase()); // PostgreSQL хранит имена в нижнем регистре
+            columns.add(columnName.toLowerCase());
         }
 
         return columns;

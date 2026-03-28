@@ -24,6 +24,7 @@
         <module>lab02_02_spring_context</module>
         <module>lab02_04_spring_jpa</module>
         <module>lab02_05_spring_security</module>
+        <module>lab02_06_spring_security_jwt</module>
     </modules>
 
     <properties>

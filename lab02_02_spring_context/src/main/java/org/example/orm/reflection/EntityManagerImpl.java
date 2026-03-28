@@ -22,7 +22,6 @@ public class EntityManagerImpl implements EntityManager {
         try {
             Field idField = getIdField(entity.getClass());
             Object id = getValue(idField, entity);
-
             if (id == null || (id instanceof Number && ((Number) id).longValue() == 0)) {
                 insert(entity);
             } else {
@@ -178,12 +177,9 @@ public class EntityManagerImpl implements EntityManager {
                 Object value = rs.getObject(EntityScanner.getColumnName(f));
 
                 if (value != null && f.getType().isAnnotationPresent(Entity.class)) {
-
                     Object related = find(f.getType(), value);
                     f.set(entity, related);
-
                 } else {
-
                     f.set(entity, value);
                 }
             }
@@ -218,7 +214,6 @@ public class EntityManagerImpl implements EntityManager {
             List<T> result = new ArrayList<>();
 
             while (rs.next()) {
-
                 T entity = type.getDeclaredConstructor().newInstance();
 
                 for (Field f : fields) {
@@ -226,12 +221,9 @@ public class EntityManagerImpl implements EntityManager {
                     Object value = rs.getObject(EntityScanner.getColumnName(f));
 
                     if (value != null && f.getType().isAnnotationPresent(Entity.class)) {
-
                         Object related = find(f.getType(), value);
                         f.set(entity, related);
-
                     } else {
-
                         f.set(entity, value);
                     }
                 }
