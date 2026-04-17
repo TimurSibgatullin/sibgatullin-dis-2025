@@ -34,9 +34,9 @@ public class ApplicationConfig {
     @Bean
     public HikariConfig hikariConfig() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/lab2_6");
         config.setUsername("postgres");
-        config.setPassword("00000000");
+        config.setPassword("post");
         config.setDriverClassName("org.postgresql.Driver");
         return config;
     }
@@ -63,7 +63,7 @@ public class ApplicationConfig {
 
     private Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update"); //update, none, create
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.show_sql", "true");
         return properties;

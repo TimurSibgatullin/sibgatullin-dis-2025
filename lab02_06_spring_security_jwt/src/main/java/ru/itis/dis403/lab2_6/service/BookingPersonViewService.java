@@ -1,6 +1,5 @@
 package ru.itis.dis403.lab2_6.service;
 
-
 import org.springframework.stereotype.Service;
 import ru.itis.dis403.lab2_6.dto.BookingPersonViewDto;
 import ru.itis.dis403.lab2_6.model.BookingPersonView;
@@ -20,16 +19,16 @@ public class BookingPersonViewService {
     public List<BookingPersonViewDto> findByHotelId(Long hotelId) {
         return bookingPersonViewRepository.findByHotelId(hotelId).stream()
                 .map(b ->
-                        BookingPersonViewDto.builder()
-                                .id(b.getId())
-                                .arrivaldate(b.getArrivalDate())
-                                .stayingdate(b.getArrivalDate())
-                                .room(b.getRoom())
-                                .name(b.getName())
-                                .birthdate(b.getBirthdate())
-                                .hotelId(b.getHoledId())
-                                .gender(b.getGender())
-                                .build()
+                    BookingPersonViewDto.builder()
+                        .id(b.getId())
+                        .arrivaldate(b.getArrivaldate())
+                        .stayingdate(b.getStayingdate())
+                            .room(b.getRoom())
+                            .name(b.getName())
+                            .birthdate(b.getBirthdate())
+                            .hotelId(b.getHotelId())
+                            .gender(b.getGender())
+                            .build()
                 ).toList();
     }
 }

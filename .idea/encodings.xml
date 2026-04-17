@@ -33,6 +33,10 @@
     <file url="file://$PROJECT_DIR$/lab02_05_spring_security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lab02_06_spring_security_jwt/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lab02_06_spring_security_jwt/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lab02_07_docker/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lab02_07_docker/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lab02_08_nats/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lab02_08_nats/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$APPLICATION_HOME_DIR$/bin/src/main/java" charset="UTF-8" />

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itis.dis403.lab2_6.dto.BookingPersonViewDto;
-import ru.itis.dis403.lab2_6.dto.BookingViewResponse;
 import ru.itis.dis403.lab2_6.dto.BookingsResponse;
+import ru.itis.dis403.lab2_6.dto.BookingsViewResponse;
 import ru.itis.dis403.lab2_6.model.Booking;
 import ru.itis.dis403.lab2_6.repository.BookingRepository;
 import ru.itis.dis403.lab2_6.service.BookingPersonViewService;
@@ -26,7 +26,7 @@ public class BookingPersonViewController {
     }
 
     @GetMapping("/allview")
-    public ResponseEntity<BookingViewResponse> getBookings() {
+    public ResponseEntity<BookingsViewResponse> getBookings() {
 
         UserDetailImpl userDetails =
                 (UserDetailImpl) SecurityContextHolder.getContext()
@@ -36,6 +36,6 @@ public class BookingPersonViewController {
 
         bookings.forEach(b-> System.out.println(b.getId()));
 
-        return ResponseEntity.ok(new BookingViewResponse(bookings));
+        return ResponseEntity.ok(new BookingsViewResponse(bookings));
     }
 }

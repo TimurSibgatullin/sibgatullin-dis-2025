@@ -1,33 +1,20 @@
 package ru.itis.dis403.lab2_6.dto;
 
 import lombok.Builder;
+
 import java.util.Date;
 
 @Builder
-public class BookingPersonViewDto {
+public class BookingDto {
     private Long id;
-
     private Date arrivaldate;
-
     private Date stayingdate;
+    private Date departuredate;
 
-    private Long hotelId;
-
+    private Long personId;
     private String name;
-
     private String gender;
-
-    private Date birthdate;
-
-    private String room;
-
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
+    private Date birthDate;
 
     public Long getId() {
         return id;
@@ -53,12 +40,20 @@ public class BookingPersonViewDto {
         this.stayingdate = stayingdate;
     }
 
-    public Long getHotelId() {
-        return hotelId;
+    public Date getDeparturedate() {
+        return departuredate;
     }
 
-    public void setHotelId(Long hotelId) {
-        this.hotelId = hotelId;
+    public void setDeparturedate(Date departuredate) {
+        this.departuredate = departuredate;
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
     public String getName() {
@@ -77,11 +72,11 @@ public class BookingPersonViewDto {
         this.gender = gender;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }

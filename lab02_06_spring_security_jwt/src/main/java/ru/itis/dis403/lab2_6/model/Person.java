@@ -2,7 +2,7 @@ package ru.itis.dis403.lab2_6.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -12,10 +12,12 @@ public class Person {
     private Long id;
 
     private String name;
+
     private String gender;
 
     @Temporal(TemporalType.DATE)
     private Date birthdate;
+
     private String fromcity;
 
     public Long getId() {
@@ -40,10 +42,6 @@ public class Person {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Date getBirthdate() {
-        return birthdate;
     }
 
     public void setBirthdate(Date birthdate) {
