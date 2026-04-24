@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.itis.dis403.lab2_6.dto.AuthRequest;
+import ru.itis.dis403.lab2_6.dto.UserDto;
 import ru.itis.dis403.lab2_6.service.JWTService;
+import ru.itis.dis403.lab2_6.service.UserDetailImpl;
 
 @Controller
 public class AppPageController {
@@ -28,14 +30,15 @@ public class AppPageController {
     }
 
     @GetMapping("/app")
-    public String appPage() {
+    public String appPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            System.out.println(authentication.getPrincipal());
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetailImpl userDetails) {
+            String username = userDetails.getUsername();
+            model.addAttribute("username", username);
             return "app";
         } else {
-            System.out.println("redirect:login");
-            return "redirect:login";
+            return "redirect:/login";
         }
     }
 
@@ -56,5 +59,11 @@ public class AppPageController {
 
         return "app";
     }
+    @GetMapping("/api/me")
+    public UserDto me() {
+        UserDetailImpl user = (UserDetailImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
 
+        return new UserDto(user.getUsername());
+    }
 }

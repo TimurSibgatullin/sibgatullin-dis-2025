@@ -15,6 +15,7 @@ public class BookingDto {
     private String name;
     private String gender;
     private Date birthDate;
+    private String room;
 
     public Long getId() {
         return id;
@@ -78,5 +79,13 @@ public class BookingDto {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 }

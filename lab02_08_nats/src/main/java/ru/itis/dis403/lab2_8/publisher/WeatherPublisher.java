@@ -12,8 +12,8 @@ public class WeatherPublisher {
     public static void main(String[] args) {
 
         String subject = "Weather";
-
-        try (Connection nc = Nats.connect("nats://147.45.199.55:4222")) {
+        String natsUrl = System.getenv().getOrDefault("NATS_URL", "nats://localhost:4222");
+        try (Connection nc = Nats.connect(natsUrl)) {
 
             while (true) {
 

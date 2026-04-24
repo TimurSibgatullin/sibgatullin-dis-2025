@@ -25,6 +25,7 @@ public class BookingService {
                 .departuredate(b.getDeparturedate())
                 .personId(b.getPerson().getId())
                 .name(b.getPerson().getName())
+                .room(b.getRoom())
                 .build();
     }
 }

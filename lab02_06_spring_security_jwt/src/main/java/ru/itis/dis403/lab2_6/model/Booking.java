@@ -23,6 +23,8 @@ public class Booking {
     @ManyToOne(cascade = CascadeType.ALL)
     private Person person;
 
+    private String room;
+
     public Long getId() {
         return id;
     }
@@ -69,5 +71,13 @@ public class Booking {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 }

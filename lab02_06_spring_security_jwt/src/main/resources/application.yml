@@ -4,8 +4,12 @@ server:
     context-path: /
 
 jwt:
-  secret: secretikkhsd8ouu1234128937918912318768723694688123487678123    #${JWT_SECRET}
-  expiration: 86400000 # 1 сутки (в миллисекундах)
+  secret: ovvJmf9yQehvknlaS/Ni18rBmvj/2g+lNVOXES9eGqKI2DlF86y8pnSlDOT0P9A9 # <-- 48 байт для HS384
+  expiration: 86400000 # 1 день в миллисекундах (long)
+
+logging:
+  level:
+    ru.itis.dis403.lab2_6.config: DEBUG
 
 spring:
   freemarker:

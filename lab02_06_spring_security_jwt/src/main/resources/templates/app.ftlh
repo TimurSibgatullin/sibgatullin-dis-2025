@@ -11,12 +11,26 @@
 
 <h2></h2>
 
-username :
+username: ${username}
 
 <script>
-    let jwt_token = ${jwt_token!}
-    //localStorage.getItem('jwt_token');
-    //console.log(jwt_token);
+    let jwt_token = localStorage.getItem('jwt_token');
+
+    fetch('/api/me', {
+        headers: {
+            'Authorization': 'Bearer ' + jwt_token
+        }
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("Unauthorized");
+            return res.json();
+        })
+        .then(data => {
+            document.querySelector("h2").innerText = "Hello, " + data.username;
+        })
+        .catch(() => {
+            window.location = "/login";
+        });
 </script>
 
 </body>
