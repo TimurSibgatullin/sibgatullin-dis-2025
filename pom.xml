@@ -27,6 +27,7 @@
         <module>lab02_06_spring_security_jwt</module>
         <module>lab02_07_docker</module>
         <module>lab02_08_nats</module>
+        <module>lab02_09_inner_service</module>
     </modules>
 
     <properties>

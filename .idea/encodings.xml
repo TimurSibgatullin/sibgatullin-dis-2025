@@ -37,6 +37,8 @@
     <file url="file://$PROJECT_DIR$/lab02_07_docker/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lab02_08_nats/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lab02_08_nats/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lab02_09_inner_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lab02_09_inner_service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$APPLICATION_HOME_DIR$/bin/src/main/java" charset="UTF-8" />

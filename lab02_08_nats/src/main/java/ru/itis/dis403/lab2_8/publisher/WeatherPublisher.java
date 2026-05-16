@@ -28,7 +28,6 @@ public class WeatherPublisher {
                 ObjectMapper mapper = new ObjectMapper();
                 byte[] msg = mapper.writeValueAsBytes(weather);
 
-                // Отправка сообщения
                 nc.publish(subject, msg);
 
                 Thread.sleep(1000);

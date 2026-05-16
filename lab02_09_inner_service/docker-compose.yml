@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+
+  nats:
+    image: nats:latest
+    container_name: nats
+    ports:
+      - "4222:4222"
+
+  img-http:
+    build:
+      context: ./imgservice
+      dockerfile: Dockerfile.http
+    container_name: img-http
+    ports:
+      - "5000:5000"
+
+  img-nats:
+    build:
+      context: ./imgservice
+      dockerfile: Dockerfile.nats
+    container_name: img-nats
+    depends_on:
+      - nats
+    environment:
+      - NATS_URL=nats://nats:4222
+
+  spring-app:
+    build:
+      context: .
+    container_name: spring-app
+    ports:
+      - "8090:8090"
+    depends_on:
+      - img-http
+      - img-nats
+      - nats

@@ -60,30 +60,7 @@ public class BookingController {
 
         return ResponseEntity.ok(new BookingsResponse(bookings));
     }
-    // ru.itis.dis403.lab2_6.controller.BookingController
 
-// Добавим DTO для обновления (можете переиспользовать BookingDto, если он подходит)
-// или создать отдельный BookingUpdateDto
-// src/main/java/ru/itis/dis403/lab2_6/dto/BookingUpdateDto.java (если нужно)
-/*
-package ru.itis.dis403.lab2_6.dto;
-import java.util.Date;
-public class BookingUpdateDto {
-    private Date arrivaldate;
-    private Date stayingdate;
-    private Date departuredate;
-    private String room; // Добавим поле room для редактирования
-    // getters and setters...
-    public Date getArrivaldate() { return arrivaldate; }
-    public void setArrivaldate(Date arrivaldate) { this.arrivaldate = arrivaldate; }
-    public Date getStayingdate() { return stayingdate; }
-    public void setStayingdate(Date stayingdate) { this.stayingdate = stayingdate; }
-    public Date getDeparturedate() { return departuredate; }
-    public void setDeparturedate(Date departuredate) { this.departuredate = departuredate; }
-    public String getRoom() { return room; }
-    public void setRoom(String room) { this.room = room; }
-}
-*/
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateBooking(@PathVariable Long id, @RequestBody BookingDto updatedBookingData) { // Используем BookingDto или BookingUpdateDto
@@ -94,7 +71,6 @@ public class BookingUpdateDto {
         Booking existingBooking = bookingRepository.findByIdAndHotelId(id, currentHotelId);
 
         if (existingBooking == null) {
-            // Бронь не найдена или не принадлежит пользователю
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found or does not belong to your hotel.");
         }
 
@@ -103,7 +79,6 @@ public class BookingUpdateDto {
         existingBooking.setDeparturedate(updatedBookingData.getDeparturedate());
         existingBooking.setRoom(updatedBookingData.getRoom());
 
-        // Сохраним обновлённую бронь
         bookingRepository.save(existingBooking);
 
         return ResponseEntity.ok("Booking updated successfully.");

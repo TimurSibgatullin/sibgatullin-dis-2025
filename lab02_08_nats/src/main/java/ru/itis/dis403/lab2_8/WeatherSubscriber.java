@@ -14,9 +14,9 @@ public class WeatherSubscriber {
 
             dispatcher.subscribe(subject);
 
-            System.out.println("Слушаем тему Weather...");
+            System.out.println("Слушаем Weather...");
 
-            Thread.sleep(600000); // 10 минут живём
+            Thread.sleep(600000);
         } catch (Exception e) {
             e.printStackTrace();
         }
